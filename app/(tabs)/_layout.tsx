@@ -1,4 +1,5 @@
 import { Tabs } from "expo-router";
+import { IconSymbol } from "@/components/ui/IconSymbol";
 
 export default function TabsLayout() {
   return (
@@ -16,9 +17,33 @@ export default function TabsLayout() {
         },
       }}
     >
-      <Tabs.Screen name="index" options={{ title: "Home" }} />
-      <Tabs.Screen name="settings" options={{ title: "Settings" }} />
-      <Tabs.Screen name="(account)" options={{ title: "Account" }} />
+      <Tabs.Screen
+        name="(analysis)"
+        options={{
+          title: "Progress",
+          tabBarIcon: ({ color, size }) => (
+            <IconSymbol size={size} name="house.fill" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="(workout)"
+        options={{
+          title: "New Workout",
+          tabBarIcon: ({ color, size }) => (
+            <IconSymbol size={size} name="plus" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="(settings)"
+        options={{
+          title: "Settings",
+          tabBarIcon: ({ color, size }) => (
+            <IconSymbol size={size} name="gear" color={color} />
+          ),
+        }}
+      />
     </Tabs>
-  )
+  );
 }
