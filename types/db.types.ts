@@ -34,6 +34,87 @@ export type Database = {
   };
   public: {
     Tables: {
+      category: {
+        Row: {
+          id: string;
+          title: string;
+          user_id: string;
+        };
+        Insert: {
+          id?: string;
+          title: string;
+          user_id?: string;
+        };
+        Update: {
+          id?: string;
+          title?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
+      exercise: {
+        Row: {
+          created_at: string;
+          id: string;
+          information: string | null;
+          title: string;
+          user_id: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          information?: string | null;
+          title: string;
+          user_id?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          information?: string | null;
+          title?: string;
+          user_id?: string | null;
+        };
+        Relationships: [];
+      };
+      exercise_category: {
+        Row: {
+          category_id: string;
+          created_at: string;
+          exercise_id: string;
+          id: string;
+          user_id: string;
+        };
+        Insert: {
+          category_id?: string;
+          created_at?: string;
+          exercise_id?: string;
+          id?: string;
+          user_id?: string;
+        };
+        Update: {
+          category_id?: string;
+          created_at?: string;
+          exercise_id?: string;
+          id?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "exercise_category_category_id_fkey";
+            columns: ["category_id"];
+            isOneToOne: false;
+            referencedRelation: "category";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "exercise_category_exercise_id_fkey";
+            columns: ["exercise_id"];
+            isOneToOne: false;
+            referencedRelation: "exercise";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
       profiles: {
         Row: {
           avatar_url: string | null;
@@ -60,6 +141,143 @@ export type Database = {
           website?: string | null;
         };
         Relationships: [];
+      };
+      training_exercise: {
+        Row: {
+          created_at: string;
+          ecercise_id: string;
+          id: string;
+          max_repetitions: number | null;
+          max_weight: number | null;
+          user_id: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          ecercise_id: string;
+          id?: string;
+          max_repetitions?: number | null;
+          max_weight?: number | null;
+          user_id?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          ecercise_id?: string;
+          id?: string;
+          max_repetitions?: number | null;
+          max_weight?: number | null;
+          user_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "training_exercise_ecercise_id_fkey";
+            columns: ["ecercise_id"];
+            isOneToOne: false;
+            referencedRelation: "exercise";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      training_session: {
+        Row: {
+          end_time: string;
+          id: string;
+          start_time: string;
+          user_id: string | null;
+        };
+        Insert: {
+          end_time: string;
+          id?: string;
+          start_time: string;
+          user_id?: string | null;
+        };
+        Update: {
+          end_time?: string;
+          id?: string;
+          start_time?: string;
+          user_id?: string | null;
+        };
+        Relationships: [];
+      };
+      training_session_category: {
+        Row: {
+          categoy_id: string;
+          created_at: string;
+          id: string;
+          training_session_id: string;
+          user_id: string;
+        };
+        Insert: {
+          categoy_id?: string;
+          created_at?: string;
+          id?: string;
+          training_session_id?: string;
+          user_id: string;
+        };
+        Update: {
+          categoy_id?: string;
+          created_at?: string;
+          id?: string;
+          training_session_id?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "training_session_category_categoy_id_fkey";
+            columns: ["categoy_id"];
+            isOneToOne: false;
+            referencedRelation: "category";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "training_session_category_training_session_id_fkey";
+            columns: ["training_session_id"];
+            isOneToOne: false;
+            referencedRelation: "training_session";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      training_set: {
+        Row: {
+          created_at: string;
+          exercise_id: string;
+          id: string;
+          repetitions: number;
+          training_session_id: string;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          exercise_id?: string;
+          id?: string;
+          repetitions?: number;
+          training_session_id: string;
+          user_id?: string;
+        };
+        Update: {
+          created_at?: string;
+          exercise_id?: string;
+          id?: string;
+          repetitions?: number;
+          training_session_id?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "training_set_exercise_id_fkey";
+            columns: ["exercise_id"];
+            isOneToOne: false;
+            referencedRelation: "training_exercise";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "training_set_training_session_id_fkey";
+            columns: ["training_session_id"];
+            isOneToOne: false;
+            referencedRelation: "training_session";
+            referencedColumns: ["id"];
+          }
+        ];
       };
     };
     Views: {

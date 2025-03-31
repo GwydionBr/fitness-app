@@ -1,49 +1,99 @@
-import { Tabs } from "expo-router";
+import { useState } from "react";
+import { StyleSheet } from "react-native";
+import { Tabs, TabList, TabTrigger, TabSlot } from "expo-router/ui";
 import { IconSymbol } from "@/components/ui/IconSymbol";
+import HeaderBackground from "@/components/ui/HeaderBackground";
 
 export default function TabsLayout() {
+  const [activeTab, setActiveTab] = useState("analysis");
+
+  const handleTabPress = (tabName: string) => {
+    setActiveTab(tabName);
+  };
+
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarStyle: {
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          elevation: 0,
-          backgroundColor: "#fff",
-          borderTopWidth: 0,
-        },
-      }}
-    >
-      <Tabs.Screen
-        name="(analysis)"
-        options={{
-          title: "Progress",
-          tabBarIcon: ({ color, size }) => (
-            <IconSymbol size={size} name="house.fill" color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="(workout)"
-        options={{
-          title: "New Workout",
-          tabBarIcon: ({ color, size }) => (
-            <IconSymbol size={size} name="plus" color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="(settings)"
-        options={{
-          title: "Settings",
-          tabBarIcon: ({ color, size }) => (
-            <IconSymbol size={size} name="gear" color={color} />
-          ),
-        }}
-      />
+    <Tabs>
+      <TabSlot />
+      <TabList asChild>
+        <HeaderBackground style={styles.tabList}>
+          <TabTrigger
+            name="(analysis)"
+            href="/(tabs)/(analysis)"
+            onPress={() => handleTabPress("(analysis)")}
+            style={[
+              styles.tabTrigger,
+              activeTab === "(analysis)"
+                ? styles.tabTriggerActive
+                : styles.tabTriggerInactive,
+            ]}
+          >
+            <IconSymbol name="house.fill" color={"black"} size={30} />
+          </TabTrigger>
+          <TabTrigger
+            name="(workout)"
+            href="/workout"
+            onPress={() => handleTabPress("(workout)")}
+            style={[
+              styles.tabTrigger,
+              activeTab === "(workout)"
+                ? styles.tabTriggerActive
+                : styles.tabTriggerInactive,
+            ]}
+          >
+            <IconSymbol name="plus" color={"black"} size={30} />
+          </TabTrigger>
+          <TabTrigger
+            name="(settings)"
+            href="/settings"
+            onPress={() => handleTabPress("(settings)")}
+            style={[
+              styles.tabTrigger,
+              activeTab === "(settings)"
+                ? styles.tabTriggerActive
+                : styles.tabTriggerInactive,
+            ]}
+          >
+            <IconSymbol name="gear" color={"black"} size={30} />
+          </TabTrigger>
+        </HeaderBackground>
+      </TabList>
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  tabList: {
+    position: "absolute",
+    bottom: 40,
+    left: 50,
+    right: 50,
+    height: 50,
+    borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    backgroundColor: "",
+    padding: 5,
+  },
+  tabTrigger: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  tabTriggerActive: {
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
+    borderRadius: 20,
+    paddingVertical: 10,
+  },
+  tabTriggerInactive: {
+
+
+  },
+});

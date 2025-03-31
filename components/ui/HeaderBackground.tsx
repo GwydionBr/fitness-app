@@ -1,8 +1,10 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import {ColorGradients, Colors} from "@/constants/Colors";
+import {ColorGradients} from "@/constants/Colors";
+import { PropsWithChildren } from "react";
+import { ViewProps } from "react-native";
 
-const HeaderBackground = () => {
+const HeaderBackground = ({children, style}: PropsWithChildren & ViewProps) => {
   const colorScheme = useColorScheme() ?? "light";
   
   return (
@@ -10,10 +12,10 @@ const HeaderBackground = () => {
       colors={
         ColorGradients[colorScheme].headerBackground 
       }
-      style={{ flex: 1 }}
+      style={[{ flex: 1 }, style]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
-    />
+    >{children}</LinearGradient>
   );
 };
 
