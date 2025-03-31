@@ -12,7 +12,6 @@ export default function AnalysisLayout() {
         headerTintColor: colorScheme === "dark" ? "#ECEDEE" : "#11181C",
       }}
     >
-      {/* <Stack.Screen name="index" options={{ headerShown: false }} /> */}
       <Stack.Screen
         name="analysis"
         options={{
