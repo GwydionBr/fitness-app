@@ -58,21 +58,21 @@ export type Database = {
           id: string;
           information: string | null;
           title: string;
-          user_id: string | null;
+          user_id: string;
         };
         Insert: {
           created_at?: string;
           id?: string;
           information?: string | null;
           title: string;
-          user_id?: string | null;
+          user_id?: string;
         };
         Update: {
           created_at?: string;
           id?: string;
           information?: string | null;
           title?: string;
-          user_id?: string | null;
+          user_id?: string;
         };
         Relationships: [];
       };
@@ -149,7 +149,7 @@ export type Database = {
           id: string;
           max_repetitions: number | null;
           max_weight: number | null;
-          user_id: string | null;
+          user_id: string;
         };
         Insert: {
           created_at?: string;
@@ -157,7 +157,7 @@ export type Database = {
           id?: string;
           max_repetitions?: number | null;
           max_weight?: number | null;
-          user_id?: string | null;
+          user_id?: string;
         };
         Update: {
           created_at?: string;
@@ -165,7 +165,7 @@ export type Database = {
           id?: string;
           max_repetitions?: number | null;
           max_weight?: number | null;
-          user_id?: string | null;
+          user_id?: string;
         };
         Relationships: [
           {
@@ -182,19 +182,19 @@ export type Database = {
           end_time: string;
           id: string;
           start_time: string;
-          user_id: string | null;
+          user_id: string;
         };
         Insert: {
           end_time: string;
           id?: string;
           start_time: string;
-          user_id?: string | null;
+          user_id?: string;
         };
         Update: {
           end_time?: string;
           id?: string;
           start_time?: string;
-          user_id?: string | null;
+          user_id?: string;
         };
         Relationships: [];
       };

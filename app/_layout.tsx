@@ -13,6 +13,7 @@ import { StatusBar } from "expo-status-bar";
 
 import { supabase } from "@/utils/supabase";
 import { useAuthStore } from "@/stores/AuthStore";
+import { useFitnessStore } from "@/stores/FitnessStore";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 
@@ -21,6 +22,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const { session, isLoading, setSession, setLoading } = useAuthStore();
+  const { fetchAllData } = useFitnessStore();
 
   const colorScheme = useColorScheme();
 
@@ -31,11 +33,13 @@ export default function RootLayout() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
+      fetchAllData();
       setLoading(false);
     });
 
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
+      fetchAllData();
       setLoading(false);
     });
   }, []);
