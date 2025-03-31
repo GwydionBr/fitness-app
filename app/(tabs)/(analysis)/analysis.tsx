@@ -5,7 +5,16 @@ import { ThemedText } from '@/components/ThemedText';
 import { useFitnessStore } from '@/stores/FitnessStore';
 
 const index = () => {
-  const { categories } = useFitnessStore();
+  const { categories, isFetching } = useFitnessStore();
+
+  if (isFetching) {
+    return (
+      <ThemedSafeAreaView>
+        <ThemedText>Loading...</ThemedText>
+      </ThemedSafeAreaView>
+    );
+  }
+
   return (
     <ThemedSafeAreaView>
       <FlatList
@@ -17,9 +26,6 @@ const index = () => {
           </ThemedText>
         )}
         ListEmptyComponent={<ThemedText>No categories found</ThemedText>}
-        contentContainerStyle={{ padding: 16 }}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
         />
     </ThemedSafeAreaView>
   );

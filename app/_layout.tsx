@@ -31,6 +31,7 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
+    
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       fetchAllData();
