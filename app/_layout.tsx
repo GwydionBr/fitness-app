@@ -44,7 +44,7 @@ export default function RootLayout() {
     if (fontsLoaded && !isLoading) {
       SplashScreen.hideAsync();
       if (session) {
-        router.replace("/(tabs)");
+        router.replace("/analysis");
       } else {
         router.replace("/auth");
       }

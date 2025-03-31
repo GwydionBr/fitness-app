@@ -14,7 +14,7 @@ export default function AnalysisLayout() {
     >
       {/* <Stack.Screen name="index" options={{ headerShown: false }} /> */}
       <Stack.Screen
-        name="index"
+        name="analysis"
         options={{
           title: "Progress",
           headerTitleAlign: "center",

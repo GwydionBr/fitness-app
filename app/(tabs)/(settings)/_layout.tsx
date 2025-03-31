@@ -8,13 +8,10 @@ export default function AccountLayout() {
   return (
     <Stack
       screenOptions={{
-        headerBackground: () => (
-          <HeaderBackground />
-        ),
+        headerBackground: () => <HeaderBackground />,
         headerTintColor: colorScheme === "dark" ? "#ECEDEE" : "#11181C",
       }}
     >
-      {/* <Stack.Screen name="index" options={{ headerShown: false }} /> */}
       <Stack.Screen
         name="settings"
         options={{
@@ -23,6 +20,7 @@ export default function AccountLayout() {
           headerShadowVisible: false,
         }}
       />
+      <Stack.Screen name="account" />
     </Stack>
   );
 }
