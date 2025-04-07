@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { Tables, TablesUpdate, TablesInsert } from "@/types/db.types";
 import * as actions from "@/actions";
 
+
 interface FitnessStore {
   categories: Tables<"category">[];
   exercises: Tables<"exercise">[];

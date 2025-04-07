@@ -3,6 +3,11 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
+
+import * as eva from "@eva-design/eva";
+import { ApplicationProvider } from "@ui-kitten/components"
+import { default as theme} from "@/custom-theme.json";
+
 import "react-native-reanimated";
 import { useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
@@ -24,7 +29,7 @@ export default function RootLayout() {
   const { session, isLoading, setSession, setLoading } = useAuthStore();
   const { fetchAllData } = useFitnessStore();
 
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme() || "light";
 
   const [fontsLoaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
@@ -49,7 +54,7 @@ export default function RootLayout() {
     if (fontsLoaded && !isLoading) {
       SplashScreen.hideAsync();
       if (session) {
-        router.replace("/analysis");
+        router.replace("/workout");
       } else {
         router.replace("/auth");
       }
@@ -57,13 +62,15 @@ export default function RootLayout() {
   }, [fontsLoaded, isLoading, session]);
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <ApplicationProvider {...eva} theme={{ ...eva[colorScheme], ...theme }}>
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+        <StatusBar style="auto" />
+      </ThemeProvider>
+    </ApplicationProvider>
   );
 }
