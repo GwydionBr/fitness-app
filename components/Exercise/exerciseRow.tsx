@@ -4,13 +4,23 @@ import { Tables } from "@/types/db.types";
 
 interface ExerciseRowProps {
   exercise: Tables<"exercise">;
+  categories: string[];
 }
 
-export default function ExerciseRow({ exercise }: ExerciseRowProps) {
+export default function ExerciseRow({ exercise, categories }: ExerciseRowProps) {
   return (
     <View style={styles.container}>
-      <ThemedText style={styles.text}>{exercise.title}</ThemedText>
-      <ThemedText style={styles.text}>{exercise.information}</ThemedText>
+      <View style={styles.upperRow}>
+        <ThemedText style={styles.text}>{exercise.title} </ThemedText>
+        {
+          exercise.information && (
+            <ThemedText style={styles.text}>({exercise.information})</ThemedText>
+          )
+        }
+      </View>
+      <View style={styles.categories}>
+        <ThemedText lightColor="gray" darkColor="gray" style={styles.categoryText}>{categories.join(", ")}</ThemedText>
+      </View>
     </View>
   );
 }
@@ -18,14 +28,22 @@ export default function ExerciseRow({ exercise }: ExerciseRowProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
     marginHorizontal: 20,
   },
+  upperRow: {
+    flexDirection: "row",
+  },
   text: {
     fontSize: 16,
+  },
+  categories: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  categoryText: {
+    fontSize: 12,
   },
 });
