@@ -4,17 +4,8 @@ import { FlatList, StyleSheet } from "react-native";
 import ExerciseRow from "@/components/Exercise/exerciseRow";
 
 export default function AllExercises() {
-  const { exercises, categories, exerciseCategories } = useFitnessStore();
+  const { exercises, getCategoriesByExerciseId } = useFitnessStore();
 
-  function getExerciseCategories(exerciseId: string) {
-    return exerciseCategories
-      .filter(({ exercise_id }) => exercise_id === exerciseId)
-      .map(
-        ({ category_id }) =>
-          categories.find(({ id }) => id === category_id)?.title ?? ""
-      )
-      .filter((title) => title !== "");
-  }
 
   return (
     <ThemedView style={styles.container}>
@@ -23,7 +14,7 @@ export default function AllExercises() {
         renderItem={({ item }) => (
           <ExerciseRow
             exercise={item}
-            categories={getExerciseCategories(item.id)}
+            categories={getCategoriesByExerciseId(item.id)}
           />
         )}
       />

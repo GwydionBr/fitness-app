@@ -4,7 +4,7 @@ import { Tables } from "@/types/db.types";
 
 interface ExerciseRowProps {
   exercise: Tables<"exercise">;
-  categories?: string[];
+  categories?: Tables<"category">[];
 }
 
 export default function ExerciseRow({
@@ -26,7 +26,7 @@ export default function ExerciseRow({
             darkColor="gray"
             style={styles.categoryText}
           >
-            {categories.join(", ")}
+            {categories.map((category) => category.title).join(", ")}
           </ThemedText>
         </View>
       )}

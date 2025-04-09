@@ -1,18 +1,15 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
 import { useLocalSearchParams } from "expo-router";
 import { useFitnessStore } from "@/stores/FitnessStore";
-import { Tables } from "@/types/db.types";
+
 import { useNavigation } from "@react-navigation/native";
 import ExerciseRow from "@/components/Exercise/exerciseRow";
 
 export default function CategoryScreen() {
   const { categoryId } = useLocalSearchParams();
-  const { categories, exercises, exerciseCategories } = useFitnessStore();
-  const [exercisesInCategory, setExercisesInCategory] = useState<
-    Tables<"exercise">[]
-  >([]);
+  const { categories,  getExercisesByCategoryId } = useFitnessStore();
+
   const navigation = useNavigation();
 
   useLayoutEffect(() => {
@@ -22,21 +19,10 @@ export default function CategoryScreen() {
     });
   }, [categoryId]);
 
-  useEffect(() => {
-    const exercisesInCategory = exercises.filter((exercise) =>
-      exerciseCategories.some(
-        (exerciseCategory) =>
-          exerciseCategory.exercise_id === exercise.id &&
-          exerciseCategory.category_id === categoryId
-      )
-    );
-    setExercisesInCategory(exercisesInCategory);
-  }, [categoryId]);
-
   return (
     <View style={styles.container}>
       <FlatList
-        data={exercisesInCategory}
+        data={getExercisesByCategoryId(categoryId as string)}
         renderItem={({ item }) => <ExerciseRow exercise={item} />}
       />
     </View>
