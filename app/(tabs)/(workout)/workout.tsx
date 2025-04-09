@@ -3,22 +3,36 @@ import { StyleSheet, ScrollView } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
 import WorkoutTimer from "@/components/workout/WorkoutTimer";
-import CategorySelector from "@/components/workout/CategorySelector";
+import SelectTrainingCategory from "@/components/workout/SelectTrainingCategory";
 import { useFitnessStore } from "@/stores/FitnessStore";
 import { Tables } from "@/types/db.types";
-import { useNavigation } from "expo-router";  
+import { useNavigation } from "expo-router";
 
 const workout = () => {
   const navigation = useNavigation();
   const { categories } = useFitnessStore();
   const [selectedCategory, setSelectedCategory] =
     useState<Tables<"category"> | null>(null);
+  const [startTime, setStartTime] = useState<number>(0);
+  const [trainingSeconds, setTrainingSeconds] = useState<number>(0);
+
+  useEffect(() => {
+    if (startTime > 0) {
+      const interval = setInterval(() => {
+        setTrainingSeconds(Math.floor((Date.now() - startTime) / 1000));
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [startTime]);
+
+  function handleCategorySubmit(category: Tables<"category">) {
+    setSelectedCategory(category);
+    setStartTime(Date.now());
+  }
 
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: selectedCategory
-        ? selectedCategory.title
-        : "Workout",
+      headerTitle: selectedCategory ? selectedCategory.title : "Workout",
     });
   }, [navigation, selectedCategory]);
 
@@ -27,18 +41,16 @@ const workout = () => {
   if (!selectedCategory) {
     content = (
       <ScrollView>
-        <CategorySelector
+        <SelectTrainingCategory
           categories={categories}
-          onSubmit={(category: Tables<"category">) =>
-            setSelectedCategory(category)
-          }
+          onSubmit={handleCategorySubmit}
         />
       </ScrollView>
     );
   } else {
     content = (
       <>
-        <WorkoutTimer seconds={3665} />
+        <WorkoutTimer seconds={trainingSeconds} />
         <ScrollView>
           <ThemedText style={styles.text}>workout</ThemedText>
         </ScrollView>

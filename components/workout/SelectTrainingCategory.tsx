@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ThemedText } from "@/components/ThemedText";
 import ThemedPicker from "@/components/ThemedPicker";
 import { Button, StyleSheet, View } from "react-native";
@@ -9,11 +9,17 @@ interface CategorySelectorProps {
   onSubmit: (category: Tables<"category">) => void;
 }
 
-const CategorySelector = ({ categories, onSubmit }: CategorySelectorProps) => {
+const SelectTrainingCategory = ({ categories, onSubmit }: CategorySelectorProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
   };
+
+  useEffect(() => {
+    if (categories.length > 0) {
+      setSelectedCategory(categories[0].id);
+    }
+  }, [categories]);
 
   return (
     <View style={styles.container}>
@@ -42,7 +48,7 @@ const CategorySelector = ({ categories, onSubmit }: CategorySelectorProps) => {
   );
 };
 
-export default CategorySelector;
+export default SelectTrainingCategory;
 
 const styles = StyleSheet.create({
   container: {
