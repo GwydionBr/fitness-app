@@ -11,14 +11,6 @@ export default function StartLayout() {
       screenOptions={{
         headerBackground: () => <HeaderBackground />,
         headerTintColor: colorScheme === "dark" ? "#ECEDEE" : "#11181C",
-        headerRight: () => (
-          <IconButton
-            icon="gear"
-            size={24}
-            color={colorScheme === "dark" ? "#ECEDEE" : "#11181C"}
-            onPress={() => {}}
-          />
-        ),  
       }}
     >
       <Stack.Screen
@@ -27,6 +19,20 @@ export default function StartLayout() {
           title: "Start",
           headerTitleAlign: "center",
           headerShadowVisible: false,
+          headerRight: () => (
+            <IconButton
+              icon="gear"
+              size={24}
+              color={colorScheme === "dark" ? "#ECEDEE" : "#11181C"}
+              onPress={() => {}}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="categoryScreen"
+        options={{
+          title: "All Categories",
         }}
       />
     </Stack>
