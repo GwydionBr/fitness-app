@@ -1,15 +1,16 @@
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, Pressable } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 
 interface TrainingCategoryRowProps {
   category: string;
+  onPress: () => void;
 }
 
-export default function TrainingCategoryRow({ category }: TrainingCategoryRowProps) {
+export default function TrainingCategoryRow({ category, onPress }: TrainingCategoryRowProps) {
   return (
-  <View style={styles.container}>
+  <Pressable style={({ pressed }) => [styles.container, pressed && styles.pressed]} onPress={onPress}>
     <ThemedText>{category}</ThemedText>
-  </View>
+  </Pressable>
   );
 }
 
@@ -19,5 +20,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
+  },
+  pressed: {
+    opacity: 0.5,
   },
 });

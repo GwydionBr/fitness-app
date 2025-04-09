@@ -4,23 +4,32 @@ import { Tables } from "@/types/db.types";
 
 interface ExerciseRowProps {
   exercise: Tables<"exercise">;
-  categories: string[];
+  categories?: string[];
 }
 
-export default function ExerciseRow({ exercise, categories }: ExerciseRowProps) {
+export default function ExerciseRow({
+  exercise,
+  categories,
+}: ExerciseRowProps) {
   return (
     <View style={styles.container}>
       <View style={styles.upperRow}>
         <ThemedText style={styles.text}>{exercise.title} </ThemedText>
-        {
-          exercise.information && (
-            <ThemedText style={styles.text}>({exercise.information})</ThemedText>
-          )
-        }
+        {exercise.information && (
+          <ThemedText style={styles.text}>({exercise.information})</ThemedText>
+        )}
       </View>
-      <View style={styles.categories}>
-        <ThemedText lightColor="gray" darkColor="gray" style={styles.categoryText}>{categories.join(", ")}</ThemedText>
-      </View>
+      {categories && (
+        <View style={styles.categories}>
+          <ThemedText
+            lightColor="gray"
+            darkColor="gray"
+            style={styles.categoryText}
+          >
+            {categories.join(", ")}
+          </ThemedText>
+        </View>
+      )}
     </View>
   );
 }

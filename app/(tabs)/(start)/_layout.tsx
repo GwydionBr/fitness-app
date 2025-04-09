@@ -30,15 +30,15 @@ export default function StartLayout() {
         }}
       />
       <Stack.Screen
-        name="categoryScreen"
+        name="(category)/categoryScreen"
         options={{
-          title: "All Categories",
+          title: "Your Categories",
         }}
       />
       <Stack.Screen
         name="(trainingExercise)"
         options={{
-          title: "All Exercises",
+          title: "Your Exercises",
         }}
       />
     </Stack>

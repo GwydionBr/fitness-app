@@ -3,16 +3,21 @@ import { ThemedView } from "@/components/ThemedView";
 import { useFitnessStore } from "@/stores/FitnessStore";
 import TrainingCategoryRow from "@/components/trainingCategory/trainingCategoryRow";
 import NewTrainingCategoryInput from "@/components/trainingCategory/newTrainingCategoryInput";
+import { useRouter } from "expo-router";
+
 export default function CategoryScreen() {
   const { categories } = useFitnessStore();
+  const router = useRouter();
 
   return (
     <ThemedView style={styles.container}>
       <NewTrainingCategoryInput />
-      <FlatList 
+      <FlatList
         data={categories}
         renderItem={({ item }) => (
-          <TrainingCategoryRow category={item.title} />
+          <TrainingCategoryRow category={item.title} onPress={() => {
+            router.push(`/(tabs)/(start)/(category)/${item.id}`);
+          }} />
         )}
       />
     </ThemedView>
