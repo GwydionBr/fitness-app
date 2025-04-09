@@ -1,8 +1,9 @@
 import { Stack } from "expo-router";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import HeaderBackground from "@/components/ui/HeaderBackground";
+import IconButton from "@/components/ui/IconButton";
 
-export default function AccountLayout() {
+export default function StartLayout() {
   const colorScheme = useColorScheme() ?? "light";
 
   return (
@@ -10,17 +11,24 @@ export default function AccountLayout() {
       screenOptions={{
         headerBackground: () => <HeaderBackground />,
         headerTintColor: colorScheme === "dark" ? "#ECEDEE" : "#11181C",
+        headerRight: () => (
+          <IconButton
+            icon="gear"
+            size={24}
+            color={colorScheme === "dark" ? "#ECEDEE" : "#11181C"}
+            onPress={() => {}}
+          />
+        ),  
       }}
     >
       <Stack.Screen
-        name="settings"
+        name="start"
         options={{
-          title: "Settings",
+          title: "Start",
           headerTitleAlign: "center",
           headerShadowVisible: false,
         }}
       />
-      <Stack.Screen name="account" />
     </Stack>
   );
 }

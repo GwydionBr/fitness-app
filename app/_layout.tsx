@@ -54,7 +54,7 @@ export default function RootLayout() {
     if (fontsLoaded && !isLoading) {
       SplashScreen.hideAsync();
       if (session) {
-        router.replace("/workout");
+        router.replace("/start");
       } else {
         router.replace("/auth");
       }
@@ -67,6 +67,7 @@ export default function RootLayout() {
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <Stack.Screen name="(settings)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
         </Stack>
         <StatusBar style="auto" />
