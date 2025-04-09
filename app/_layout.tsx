@@ -37,15 +37,15 @@ export default function RootLayout() {
 
   useEffect(() => {
     
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session);
-      fetchAllData();
+      await fetchAllData();
       setLoading(false);
     });
 
-    supabase.auth.onAuthStateChange((_event, session) => {
+    supabase.auth.onAuthStateChange(async (_event, session) => {
       setSession(session);
-      fetchAllData();
+      await fetchAllData();
       setLoading(false);
     });
   }, []);
@@ -54,7 +54,7 @@ export default function RootLayout() {
     if (fontsLoaded && !isLoading) {
       SplashScreen.hideAsync();
       if (session) {
-        router.replace("/start");
+        router.replace("/workout");
       } else {
         router.replace("/auth");
       }
