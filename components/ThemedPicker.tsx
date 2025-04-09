@@ -3,7 +3,6 @@ import { Picker } from "@react-native-picker/picker";
 import { StyleProp, StyleSheet, View, ViewStyle, TextStyle } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { ThemedView } from "./ThemedView";
 
 export type ThemedPickerProps<T> = {
   selectedValue: T;
@@ -13,6 +12,7 @@ export type ThemedPickerProps<T> = {
   darkColor?: string;
   withBorder?: boolean;
   label?: string;
+  style?: StyleProp<ViewStyle>;
   labelStyle?: StyleProp<TextStyle>;
   pickerStyle?: StyleProp<ViewStyle>;
 };
@@ -25,6 +25,7 @@ const ThemedPicker = <T extends unknown>({
   darkColor,
   withBorder,
   label,
+  style,
   labelStyle,
   pickerStyle,
 }: ThemedPickerProps<T>) => {
@@ -38,7 +39,7 @@ const ThemedPicker = <T extends unknown>({
   );
 
   return (
-    <ThemedView>
+    <View style={[styles.rootContainer, style]}>
       {label && (
         <ThemedText style={[styles.label, labelStyle]}>{label}</ThemedText>
       )}
@@ -61,13 +62,17 @@ const ThemedPicker = <T extends unknown>({
           ))}
         </Picker>
       </View>
-    </ThemedView>
+    </View>
   );
 };
 
 export default ThemedPicker;
 
 const styles = StyleSheet.create({
+  rootContainer: {
+    flex: 1,
+    width: "100%",
+  },
   pickerContainer: {
     borderRadius: 8,
   },
