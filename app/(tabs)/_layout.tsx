@@ -1,61 +1,72 @@
-import { usePathname } from "expo-router";
 import { StyleSheet } from "react-native";
 import { Tabs, TabList, TabTrigger, TabSlot } from "expo-router/ui";
 import { IconSymbol } from "@/components/ui/IconSymbol";
+import { useState } from "react";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 export default function TabsLayout() {
-  const pathname = usePathname();
+  const [activeTab, setActiveTab] = useState("start");
+  const shadowColor = useThemeColor({}, "shadow");
 
   return (
     <Tabs>
       <TabSlot />
-      <TabList style={styles.tabList}>
+      <TabList style={[styles.tabList, { shadowColor }]}>
         <TabTrigger
+          onPress={() => {
+            setActiveTab("start");
+          }}
           name="(start)"
           href="/start"
           style={[
             styles.tabTrigger,
-            pathname === "/start"
+            activeTab === "start"
               ? styles.tabTriggerActive
               : styles.tabTriggerInactive,
           ]}
         >
           <IconSymbol
             name="house.fill"
-            color={pathname === "/start" ? "blue" : "black"}
-            size={30}
+            color={activeTab === "start" ? "blue" : "black"}
+            size={35}
           />
         </TabTrigger>
         <TabTrigger
+          onPress={() => {
+            setActiveTab("workout");
+          }}
           name="(workout)"
           href="/workout"
           style={[
             styles.tabTrigger,
-            pathname === "/workout"
+            activeTab === "workout"
               ? styles.tabTriggerActive
               : styles.tabTriggerInactive,
           ]}
         >
           <IconSymbol
             name="dumbbell.fill"
-            color={pathname === "/workout" ? "blue" : "black"}
-            size={30}
+            color={activeTab === "workout" ? "blue" : "black"}
+            size={35}
           />
         </TabTrigger>
         <TabTrigger
+          onPress={() => {
+            setActiveTab("analysis");
+          }}
           name="(analysis)"
           href="/analysis"
           style={[
             styles.tabTrigger,
-            pathname === "/analysis"
+            activeTab === "analysis"
               ? styles.tabTriggerActive
               : styles.tabTriggerInactive,
           ]}
         >
           <IconSymbol
             name="chart.xyaxis.line"
-            color={pathname === "/analysis" ? "blue" : "black"}
-            size={30}
+            color={activeTab === "analysis" ? "blue" : "black"}
+            size={35}
           />
         </TabTrigger>
       </TabList>
@@ -66,12 +77,11 @@ export default function TabsLayout() {
 const styles = StyleSheet.create({
   tabList: {
     position: "absolute",
-    bottom: 40,
-    left: 50,
-    right: 50,
-    height: 50,
+    bottom: 30,
+    left: 40,
+    right: 40,
+    height: 60,
     borderRadius: 20,
-    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -92,7 +102,7 @@ const styles = StyleSheet.create({
   tabTriggerActive: {
     backgroundColor: "rgba(255, 255, 255, 0.5)",
     borderRadius: 20,
-    paddingVertical: 10,
+    paddingVertical: 15,
   },
   tabTriggerInactive: {
     // Stil für inaktive Tabs

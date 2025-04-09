@@ -35,6 +35,12 @@ export default function StartLayout() {
           title: "All Categories",
         }}
       />
+      <Stack.Screen
+        name="(trainingExercise)"
+        options={{
+          title: "All Exercises",
+        }}
+      />
     </Stack>
   );
 }
