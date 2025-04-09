@@ -1,11 +1,12 @@
-import { Stack } from "expo-router";
+import { Link, Stack } from "expo-router";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import HeaderBackground from "@/components/ui/HeaderBackground";
 import IconButton from "@/components/ui/IconButton";
+import { useRouter } from "expo-router";
 
 export default function StartLayout() {
   const colorScheme = useColorScheme() ?? "light";
-
+  const router = useRouter();
   return (
     <Stack
       screenOptions={{
@@ -24,7 +25,9 @@ export default function StartLayout() {
               icon="gear"
               size={24}
               color={colorScheme === "dark" ? "#ECEDEE" : "#11181C"}
-              onPress={() => {}}
+              onPress={() => {
+                router.push("/settings");
+              }}
             />
           ),
         }}
@@ -39,6 +42,18 @@ export default function StartLayout() {
         name="(trainingExercise)"
         options={{
           title: "Your Exercises",
+        }}
+      />
+      <Stack.Screen
+        name="(settings)/settings"
+        options={{
+          title: "Settings",
+        }}
+      />
+      <Stack.Screen
+        name="(settings)/account"
+        options={{
+          title: "Account",
         }}
       />
     </Stack>

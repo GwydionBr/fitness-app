@@ -9,7 +9,6 @@ const settings = () => {
     <ThemedSafeAreaView style={styles.container}>
       <ThemedText>settings</ThemedText>
       <Link href="/(tabs)/(settings)/account" style={styles.link}>Go to account</Link>
-      <Link href="/(tabs)/(workout)/workout" style={styles.link}>Go to workout</Link>
     </ThemedSafeAreaView>
   );
 }

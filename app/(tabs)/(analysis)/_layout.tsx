@@ -12,14 +12,6 @@ export default function AnalysisLayout() {
       screenOptions={{
         headerBackground: () => <HeaderBackground />,
         headerTintColor: colorScheme === "dark" ? "#ECEDEE" : "#11181C",
-        headerRight: () => (
-          <IconButton
-            icon="gear"
-            size={24}
-            color={colorScheme === "dark" ? "#ECEDEE" : "#11181C"}
-            onPress={() => router.push("/settings")}
-          />
-        ),
       }}
     >
       <Stack.Screen
