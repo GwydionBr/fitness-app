@@ -21,7 +21,7 @@ export default function NewTrainingCategoryInput() {
   };
 
   return (
-    <ThemedView style={[styles.container, { shadowColor }]}>
+    <ThemedView style={[styles.container, { shadowColor, borderColor: shadowColor }]}>
       <ThemedTextInput
         style={styles.input}
         value={categoryName}
@@ -44,6 +44,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 15,
+    borderWidth: 1,
+    borderRadius: 10,
+    marginHorizontal: 10,
+    marginVertical: 15,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
