@@ -3,15 +3,22 @@ import { ThemedView } from "../ThemedView";
 import { StyleSheet, View } from "react-native";
 import { WorkoutExercise } from "@/app/(tabs)/(workout)/workout";
 import { FlatList } from "react-native";
-import SetRow from "./SetRow";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import TrainingSetRow from "./TrainingSetRow";
+import { TablesInsert } from "@/types/db.types";
+import IconButton from "../ui/IconButton";
 
 interface TrainingExerciseFormProps {
   workoutExercise: WorkoutExercise;
+  workoutIndex: number;
+  onSetChange: (set: TablesInsert<"training_set">, setIndex: number) => void;
+  addSet: () => void;
 }
 
 export default function TrainingExerciseForm({
   workoutExercise,
+  onSetChange,
+  addSet,
 }: TrainingExerciseFormProps) {
   const { trainingExercise: exercise, sets } = workoutExercise;
   const shadowColor = useThemeColor({}, "shadow");
@@ -33,8 +40,21 @@ export default function TrainingExerciseForm({
       </View>
       <FlatList
         data={sets}
-        renderItem={({ item, index }) => <SetRow set={item} setIndex={index} />}
+        renderItem={({ item, index }) => (
+          <TrainingSetRow
+            index={index}
+            reps={item.repetitions ?? 0}
+            weight={item.weight ?? 0}
+            onRepsChange={(reps) =>
+              onSetChange({ ...item, repetitions: reps }, index)
+            }
+            onWeightChange={(weight) => onSetChange({ ...item, weight }, index)}
+          />
+        )}
       />
+      <View style={styles.addSetRow}>
+        <IconButton icon="plus" size={18} color="white" onPress={addSet} buttonStyle={styles.addSetButton}/>
+      </View>
     </ThemedView>
   );
 }
@@ -43,7 +63,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    padding: 16,
+    paddingTop: 16,
+    paddingBottom: 10,
+    paddingHorizontal: 16,
     borderRadius: 16,
     borderWidth: 1,
     borderColor: "gray",
@@ -60,12 +82,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   tableHeaderText: {
+    width: 50,
     fontSize: 10,
     fontWeight: "bold",
     textAlign: "center",
   },
   title: {
     fontSize: 16,
+    textAlign: "center",
+    fontWeight: "bold",
   },
   header: {
     flexDirection: "row",
@@ -73,8 +98,20 @@ const styles = StyleSheet.create({
     gap: 10,
     borderBottomWidth: 1,
     borderColor: "gray",
+    justifyContent: "center",
+    paddingBottom: 6,
   },
   subtitle: {
     fontSize: 12,
+  },
+  addSetRow: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 10,
+  },
+  addSetButton: {
+    backgroundColor: "green",
+    borderRadius: 100,
+
   },
 });

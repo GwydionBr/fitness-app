@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useThemeColor } from "@/hooks/useThemeColor";
 
 export default function TabsLayout() {
-  const [activeTab, setActiveTab] = useState("start");
+  const [activeTab, setActiveTab] = useState("workout");
   const shadowColor = useThemeColor({}, "shadow");
 
   return (
