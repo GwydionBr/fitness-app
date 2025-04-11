@@ -80,7 +80,13 @@ const workout = () => {
     });
     setWorkoutExercises(newWorkoutExercises);
   };
-  
+
+  const handleDeleteSet = (exerciseIndex: number, setIndex: number) => {
+    const newWorkoutExercises = [...workoutExercises];
+    newWorkoutExercises[exerciseIndex].sets.splice(setIndex, 1);
+    setWorkoutExercises(newWorkoutExercises);
+  };
+
   // Set header title
   useEffect(() => {
     navigation.setOptions({
@@ -123,6 +129,7 @@ const workout = () => {
                   };
                   setWorkoutExercises(newWorkoutExercises);
                 }}
+                onDeleteSet={(setIndex) => handleDeleteSet(index, setIndex)}
               />
             )}
           />
@@ -153,8 +160,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: "center",
     paddingTop: 70,
     paddingBottom: 60,
+    width: "100%",
   },
 });

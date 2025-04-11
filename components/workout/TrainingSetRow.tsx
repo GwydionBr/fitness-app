@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Pressable } from "react-native";
+import { StyleSheet, Pressable } from "react-native";
 import { ThemedText } from "../ThemedText";
 import ThemedNumberInput from "../ThemedNumberInput";
+import { ThemedView } from "../ThemedView";
 
 interface TrainingSetRowProps {
   index: number;
@@ -22,7 +23,7 @@ export default function TrainingSetRow({
   const [isEditingWeight, setIsEditingWeight] = useState(false);
 
   return (
-    <View style={styles.container}>
+    <ThemedView style={styles.container}>
       <ThemedText style={styles.index}>{index + 1}</ThemedText>
       {isEditingReps ? (
         <ThemedNumberInput
@@ -50,7 +51,7 @@ export default function TrainingSetRow({
           <ThemedText style={styles.weight}>{weight}</ThemedText>
         </Pressable>
       )}
-    </View>
+    </ThemedView>
   );
 }
 
