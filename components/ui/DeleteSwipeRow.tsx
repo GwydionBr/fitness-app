@@ -1,17 +1,19 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import { IconSymbol } from "./IconSymbol";
 import IconButton from "./IconButton";
 
 interface DeleteSwipeRowProps {
   onDelete: () => void;
+  size?: number;
+  style?: StyleProp<ViewStyle>;
 }
 
-export default function DeleteSwipeRow({ onDelete }: DeleteSwipeRowProps) {
+export default function DeleteSwipeRow({ onDelete, size = 20, style }: DeleteSwipeRowProps) {
   return (
-    <View style={styles.rowBack}>
+    <View style={[styles.rowBack, style]}>
       <IconButton
         icon="trash"
-        size={30}
+        size={size}
         color="white"
         onPress={onDelete}
         buttonStyle={styles.deleteButton}

@@ -61,6 +61,7 @@ export default function TrainingExerciseForm({
         keyExtractor={(item, index) => `set-${index}`}
         renderItem={({ item, index }) => (
           <TrainingSetRow
+            style={styles.trainingSetRow}
             key={`set-row-${index}`}
             index={index}
             reps={item.repetitions ?? 0}
@@ -72,7 +73,7 @@ export default function TrainingExerciseForm({
           />
         )}
         renderHiddenItem={({ index }) => (
-          <DeleteSwipeRow onDelete={() => onDeleteSet(index)} />
+          <DeleteSwipeRow onDelete={() => onDeleteSet(index)} size={24} style={styles.trainingSetRow}/>
         )}
       />
       <View style={styles.addSetRow}>
@@ -150,4 +151,7 @@ const styles = StyleSheet.create({
   rowFront: {
     backgroundColor: "transparent",
   },
+  trainingSetRow: {
+    marginTop: 5,
+  }
 });
