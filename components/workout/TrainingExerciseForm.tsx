@@ -13,15 +13,17 @@ interface TrainingExerciseFormProps {
   workoutExercise: WorkoutExercise;
   workoutIndex: number;
   onSetChange: (set: TablesInsert<"training_set">, setIndex: number) => void;
-  addSet: () => void;
+  onAddSet: () => void;
   onDeleteSet: (setIndex: number) => void;
+  onDeleteExercise: () => void;
 }
 
 export default function TrainingExerciseForm({
   workoutExercise,
   onSetChange,
-  addSet,
+  onAddSet,
   onDeleteSet,
+  onDeleteExercise,
 }: TrainingExerciseFormProps) {
   const { trainingExercise: exercise, sets } = workoutExercise;
   const shadowColor = useThemeColor({}, "shadow");
@@ -29,12 +31,20 @@ export default function TrainingExerciseForm({
   return (
     <ThemedView style={[styles.container, { shadowColor }]}>
       <View style={styles.header}>
+        <View style={styles.headerLeft}>
         <ThemedText style={styles.title}>{exercise.title}</ThemedText>
         {exercise.information && (
           <ThemedText style={styles.subtitle}>
             ({exercise.information})
           </ThemedText>
         )}
+        </View>
+        <IconButton
+          icon="trash"
+          size={18}
+          color="red"
+          onPress={onDeleteExercise}
+        />
       </View>
       <View style={styles.tableHeader}>
         <ThemedText style={styles.tableHeaderText}>Set</ThemedText>
@@ -70,7 +80,7 @@ export default function TrainingExerciseForm({
           icon="plus"
           size={18}
           color="white"
-          onPress={addSet}
+          onPress={onAddSet}
           buttonStyle={styles.addSetButton}
         />
       </View>
@@ -117,8 +127,13 @@ const styles = StyleSheet.create({
     gap: 10,
     borderBottomWidth: 1,
     borderColor: "gray",
-    justifyContent: "center",
+    justifyContent: "space-between",
     paddingBottom: 6,
+  },
+  headerLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
   },
   subtitle: {
     fontSize: 12,

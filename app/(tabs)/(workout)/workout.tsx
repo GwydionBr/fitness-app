@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, ScrollView, FlatList, View } from "react-native";
+import { StyleSheet, ScrollView, FlatList, View, Alert } from "react-native";
 import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
 import WorkoutTimer from "@/components/workout/WorkoutTimer";
 import SelectTrainingCategory from "@/components/workout/SelectTrainingCategory";
@@ -87,6 +87,17 @@ const workout = () => {
     setWorkoutExercises(newWorkoutExercises);
   };
 
+  const handleDeleteExercise = (exerciseIndex: number) => {
+    Alert.alert("Delete Exercise", "Are you sure you want to delete this exercise?", [
+      { text: "Cancel", style: "cancel" },
+      { text: "Delete", style: "destructive", onPress: () => {
+        const newWorkoutExercises = [...workoutExercises];
+        newWorkoutExercises.splice(exerciseIndex, 1);
+        setWorkoutExercises(newWorkoutExercises);
+      } },
+    ]);
+  };
+
   // Set header title
   useEffect(() => {
     navigation.setOptions({
@@ -94,7 +105,7 @@ const workout = () => {
     });
   }, [navigation, selectedCategory]);
 
-  // Render content 
+  // Render content
   let content = null;
 
   // If no category is selected, render the select category screen
@@ -118,7 +129,9 @@ const workout = () => {
               <TrainingExerciseForm
                 workoutExercise={item}
                 workoutIndex={index}
-                addSet={() => handleAddSet(index)}
+                onAddSet={() => handleAddSet(index)}
+                onDeleteSet={(setIndex) => handleDeleteSet(index, setIndex)}
+                onDeleteExercise={() => handleDeleteExercise(index)}
                 onSetChange={(set, setIndex) => {
                   const newWorkoutExercises = [...workoutExercises];
                   newWorkoutExercises[index] = {
@@ -129,7 +142,6 @@ const workout = () => {
                   };
                   setWorkoutExercises(newWorkoutExercises);
                 }}
-                onDeleteSet={(setIndex) => handleDeleteSet(index, setIndex)}
               />
             )}
           />
