@@ -3,9 +3,11 @@ import React from 'react'
 import ThemedSafeAreaView from '@/components/ThemedSafeAreaView'
 import { ThemedText } from '@/components/ThemedText';
 import { useFitnessStore } from '@/stores/FitnessStore';
+import TrainingSessionRow from '@/components/analysis/trainingSessionRow';
+import { router } from 'expo-router';
 
 const index = () => {
-  const { categories, isFetching } = useFitnessStore();
+  const { trainingSessions, isFetching } = useFitnessStore();
 
   if (isFetching) {
     return (
@@ -18,12 +20,11 @@ const index = () => {
   return (
     <ThemedSafeAreaView>
       <FlatList
-        data={categories}
+        data={trainingSessions}
+        style={styles.sessionList}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <ThemedText>
-            {item.title}
-          </ThemedText>
+          <TrainingSessionRow session={item} onPress={() => router.push(`/(tabs)/(analysis)/${item.id}`)} />
         )}
         ListEmptyComponent={<ThemedText>No categories found</ThemedText>}
         />
@@ -33,4 +34,9 @@ const index = () => {
 
 export default index
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  sessionList: {
+    flex: 1,
+    marginTop: 10,
+  },
+})

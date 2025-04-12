@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, ScrollView, FlatList, View, Alert } from "react-native";
+import { StyleSheet, ScrollView, FlatList, View, Alert, Button } from "react-native";
 import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
 import WorkoutTimer from "@/components/workout/WorkoutTimer";
 import SelectTrainingCategory from "@/components/workout/SelectTrainingCategory";
@@ -17,7 +17,7 @@ const workout = () => {
   const navigation = useNavigation();
 
   // Store variables
-  const { categories, getExercisesByCategoryId } = useFitnessStore();
+  const { categories, getExercisesByCategoryId, createWorkoutSession } = useFitnessStore();
   const [selectedCategory, setSelectedCategory] =
     useState<Tables<"category"> | null>(null);
 
@@ -29,11 +29,6 @@ const workout = () => {
   // Timer variables
   const [startTime, setStartTime] = useState<number>(0);
   const [trainingSeconds, setTrainingSeconds] = useState<number>(0);
-
-  // For Testing purposes
-  useEffect(() => {
-    handleCategorySubmit(categories[0]);
-  }, [categories]);
 
   // Timer
   useEffect(() => {
@@ -98,6 +93,15 @@ const workout = () => {
     ]);
   };
 
+  const handleSaveWorkout = () => {
+    if (selectedCategory) {
+      createWorkoutSession(selectedCategory?.id, new Date(startTime), new Date(), workoutExercises);
+      setSelectedCategory(null);
+      setStartTime(0);
+      setWorkoutExercises([]);
+    }
+  };
+
   // Set header title
   useEffect(() => {
     navigation.setOptions({
@@ -145,6 +149,7 @@ const workout = () => {
               />
             )}
           />
+        <Button title="Save" onPress={handleSaveWorkout} />
         </View>
       </>
     );

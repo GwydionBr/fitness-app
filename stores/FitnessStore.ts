@@ -1,6 +1,11 @@
 import { create } from "zustand";
 import { Tables, TablesUpdate, TablesInsert } from "@/types/db.types";
 import * as actions from "@/actions";
+import { WorkoutExercise } from "@/app/(tabs)/(workout)/workout";
+import {
+  TrainingSessionResponse,
+  TrainingExerciseResponse,
+} from "@/types/action.types";
 
 interface FitnessStore {
   categories: Tables<"category">[];
@@ -37,7 +42,7 @@ interface FitnessStore {
   // Training Exercise CRUD Functions
   createTrainingExercise: (
     data: TablesInsert<"training_exercise">
-  ) => Promise<void>;
+  ) => Promise<TrainingExerciseResponse>;
   updateTrainingExercise: (
     id: string,
     data: TablesUpdate<"training_exercise">
@@ -47,7 +52,7 @@ interface FitnessStore {
   // Training Session CRUD Functions
   createTrainingSession: (
     data: TablesInsert<"training_session">
-  ) => Promise<void>;
+  ) => Promise<TrainingSessionResponse>;
   updateTrainingSession: (
     id: string,
     data: TablesUpdate<"training_session">
@@ -75,6 +80,13 @@ interface FitnessStore {
   // Helper functions
   getExercisesByCategoryId: (categoryId: string) => Tables<"exercise">[];
   getCategoriesByExerciseId: (exerciseId: string) => Tables<"category">[];
+
+  createWorkoutSession: (
+    categoryId: string,
+    startTime: Date,
+    endTime: Date,
+    workoutExercises: WorkoutExercise[]
+  ) => Promise<void>;
 }
 
 export const useFitnessStore = create<FitnessStore>((set, get) => ({
@@ -232,6 +244,7 @@ export const useFitnessStore = create<FitnessStore>((set, get) => ({
         trainingExercises: [...state.trainingExercises, ...response.data],
       }));
     }
+    return response;
   },
 
   updateTrainingExercise: async (id, data) => {
@@ -273,6 +286,7 @@ export const useFitnessStore = create<FitnessStore>((set, get) => ({
         trainingSessions: [...state.trainingSessions, ...response.data],
       }));
     }
+    return response;
   },
 
   updateTrainingSession: async (id, data) => {
@@ -400,5 +414,67 @@ export const useFitnessStore = create<FitnessStore>((set, get) => ({
       .map((ec) => ec.category_id);
 
     return categories.filter((category) => categoryIds.includes(category.id));
+  },
+
+  createWorkoutSession: async (
+    categoryId: string,
+    startTime: Date,
+    endTime: Date,
+    workoutExercises: WorkoutExercise[]
+  ) => {
+    const {
+      createTrainingSession,
+      createTrainingExercise,
+      createTrainingSet,
+      createTrainingSessionCategory,
+    } = get();
+
+    // Create training session
+    const trainingSessionResponse = await createTrainingSession({
+      start_time: startTime.toISOString(),
+      end_time: endTime.toISOString(),
+    });
+
+    if (
+      !trainingSessionResponse.success ||
+      !trainingSessionResponse.data?.[0]?.id
+    ) {
+      throw new Error("Failed to create training session");
+    }
+
+    const sessionId = trainingSessionResponse.data[0].id;
+
+    // Create training session category
+    await createTrainingSessionCategory({
+      training_session_id: sessionId,
+      categoy_id: categoryId,
+      user_id: "current-user", // TODO: Replace with actual user ID
+    });
+
+    // Create training exercises and sets
+    for (const workoutExercise of workoutExercises) {
+      // Create training exercise
+      const trainingExerciseResponse = await createTrainingExercise({
+        ...workoutExercise.trainingExercise,
+        training_session_id: sessionId,
+      });
+
+      if (
+        !trainingExerciseResponse.success ||
+        !trainingExerciseResponse.data?.[0]?.id
+      ) {
+        throw new Error("Failed to create training exercise");
+      }
+
+      const exerciseId = trainingExerciseResponse.data[0].id;
+
+      // Create training sets
+      for (const set of workoutExercise.sets) {
+        await createTrainingSet({
+          ...set,
+          training_exercise_id: exerciseId,
+        });
+      }
+    }
   },
 }));
