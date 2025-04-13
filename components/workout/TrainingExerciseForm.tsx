@@ -1,7 +1,7 @@
 import { ThemedText } from "../ThemedText";
 import { ThemedView } from "../ThemedView";
 import { StyleSheet, View } from "react-native";
-import { WorkoutExercise } from "@/app/(tabs)/(workout)/workout";
+import { WorkoutExercise } from "@/stores/FitnessStore";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import TrainingSetRow from "./TrainingSetRow";
 import { TablesInsert } from "@/types/db.types";
@@ -11,7 +11,6 @@ import DeleteSwipeRow from "../ui/DeleteSwipeRow";
 
 interface TrainingExerciseFormProps {
   workoutExercise: WorkoutExercise;
-  workoutIndex: number;
   onSetChange: (set: TablesInsert<"training_set">, setIndex: number) => void;
   onAddSet: () => void;
   onDeleteSet: (setIndex: number) => void;

@@ -11,15 +11,11 @@ import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
 import WorkoutTimer from "@/components/workout/WorkoutTimer";
 import SelectTrainingCategory from "@/components/workout/SelectTrainingCategory";
 import { useFitnessStore } from "@/stores/FitnessStore";
-import { Tables, TablesInsert } from "@/types/db.types";
+import { Tables } from "@/types/db.types";
 import { useRouter, useNavigation } from "expo-router";
 import TrainingExerciseForm from "@/components/workout/TrainingExerciseForm";
 import IconButton from "@/components/ui/IconButton";
-
-export interface WorkoutExercise {
-  trainingExercise: TablesInsert<"training_exercise">;
-  sets: TablesInsert<"training_set">[];
-}
+import { WorkoutExercise } from "@/stores/FitnessStore";
 
 const workout = () => {
   const navigation = useNavigation();
@@ -190,7 +186,6 @@ const workout = () => {
             renderItem={({ item, index }) => (
               <TrainingExerciseForm
                 workoutExercise={item}
-                workoutIndex={index}
                 onAddSet={() => handleAddSet(index)}
                 onDeleteSet={(setIndex) => handleDeleteSet(index, setIndex)}
                 onDeleteExercise={() => handleDeleteExercise(index)}

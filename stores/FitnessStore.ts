@@ -1,11 +1,15 @@
 import { create } from "zustand";
 import { Tables, TablesUpdate, TablesInsert } from "@/types/db.types";
 import * as actions from "@/actions";
-import { WorkoutExercise } from "@/app/(tabs)/(workout)/workout";
 import {
   TrainingSessionResponse,
   TrainingExerciseResponse,
 } from "@/types/action.types";
+
+export interface WorkoutExercise {
+  trainingExercise: TablesInsert<"training_exercise">;
+  sets: TablesInsert<"training_set">[];
+}
 
 interface FitnessStore {
   categories: Tables<"category">[];
@@ -80,6 +84,11 @@ interface FitnessStore {
   // Helper functions
   getExercisesByCategoryId: (categoryId: string) => Tables<"exercise">[];
   getCategoriesByExerciseId: (exerciseId: string) => Tables<"category">[];
+  getSessionData: (sessionId: string) => Promise<{
+    session: Tables<"training_session">;
+    exercises: Tables<"training_exercise">[];
+    sets: Tables<"training_set">[]; 
+  }>;
 
   createWorkoutSession: (
     categoryId: string,
@@ -416,6 +425,17 @@ export const useFitnessStore = create<FitnessStore>((set, get) => ({
     return categories.filter((category) => categoryIds.includes(category.id));
   },
 
+  getSessionData: async (sessionId: string) => {
+    const { trainingSessions, trainingExercises, trainingSets } = get();
+    const session = trainingSessions.find((session) => session.id === sessionId);
+    if (!session) {
+      throw new Error('Session not found');
+    }
+    const exercises = trainingExercises.filter((exercise) => exercise.training_session_id === sessionId);
+    const sets = trainingSets.filter((set) => exercises.some((exercise) => exercise.id === set.training_exercise_id));
+    return { session, exercises, sets };
+  },
+
   createWorkoutSession: async (
     categoryId: string,
     startTime: Date,
@@ -439,8 +459,10 @@ export const useFitnessStore = create<FitnessStore>((set, get) => ({
       !trainingSessionResponse.success ||
       !trainingSessionResponse.data?.[0]?.id
     ) {
-      return { success: false, errorMessage: "Failed to create training session" };
-
+      return {
+        success: false,
+        errorMessage: "Failed to create training session",
+      };
     }
 
     const sessionId = trainingSessionResponse.data[0].id;
@@ -464,7 +486,10 @@ export const useFitnessStore = create<FitnessStore>((set, get) => ({
         !trainingExerciseResponse.success ||
         !trainingExerciseResponse.data?.[0]?.id
       ) {
-        return { success: false, errorMessage: "Failed to create training exercise" };
+        return {
+          success: false,
+          errorMessage: "Failed to create training exercise",
+        };
       }
 
       const exerciseId = trainingExerciseResponse.data[0].id;
