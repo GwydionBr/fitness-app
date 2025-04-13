@@ -6,6 +6,7 @@ interface CreateRowProps<T extends TableNames> {
   tableName: T;
   data: TablesInsert<T>;
 }
+
 export async function createRow<T extends TableNames>({
   tableName,
   data,
@@ -22,12 +23,15 @@ export async function createRow<T extends TableNames>({
     };
   }
 
+  const insertData = { ...(data as any), user_id: user.id, id: undefined };
+
   const { data: createdData, error } = await supabase
     .from(tableName)
-    .insert({ ...(data as any), user_id: user.id })
-    .select("*")
+    .insert(insertData)
+    .select("*");
 
   if (error) {
+    console.log(error);
     return {
       data: null,
       error: error.message,

@@ -5,7 +5,7 @@ import WorkoutTimer from "@/components/workout/WorkoutTimer";
 import SelectTrainingCategory from "@/components/workout/SelectTrainingCategory";
 import { useFitnessStore } from "@/stores/FitnessStore";
 import { Tables, TablesInsert } from "@/types/db.types";
-import { useNavigation } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import TrainingExerciseForm from "@/components/workout/TrainingExerciseForm";
 
 export interface WorkoutExercise {
@@ -93,12 +93,17 @@ const workout = () => {
     ]);
   };
 
-  const handleSaveWorkout = () => {
+  const handleSaveWorkout = async () => {
     if (selectedCategory) {
-      createWorkoutSession(selectedCategory?.id, new Date(startTime), new Date(), workoutExercises);
-      setSelectedCategory(null);
-      setStartTime(0);
-      setWorkoutExercises([]);
+      const response = await createWorkoutSession(selectedCategory?.id, new Date(startTime), new Date(), workoutExercises);
+      if (response.success) {
+        setSelectedCategory(null);
+        setStartTime(0);
+        setWorkoutExercises([]);
+        router.replace("/progress");
+      } else {
+        Alert.alert("Error", response.errorMessage);
+      }
     }
   };
 

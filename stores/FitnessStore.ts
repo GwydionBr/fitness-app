@@ -86,7 +86,7 @@ interface FitnessStore {
     startTime: Date,
     endTime: Date,
     workoutExercises: WorkoutExercise[]
-  ) => Promise<void>;
+  ) => Promise<{ success: boolean; errorMessage: string }>;
 }
 
 export const useFitnessStore = create<FitnessStore>((set, get) => ({
@@ -439,7 +439,8 @@ export const useFitnessStore = create<FitnessStore>((set, get) => ({
       !trainingSessionResponse.success ||
       !trainingSessionResponse.data?.[0]?.id
     ) {
-      throw new Error("Failed to create training session");
+      return { success: false, errorMessage: "Failed to create training session" };
+
     }
 
     const sessionId = trainingSessionResponse.data[0].id;
@@ -448,7 +449,7 @@ export const useFitnessStore = create<FitnessStore>((set, get) => ({
     await createTrainingSessionCategory({
       training_session_id: sessionId,
       categoy_id: categoryId,
-      user_id: "current-user", // TODO: Replace with actual user ID
+      user_id: "user will be added in the action",
     });
 
     // Create training exercises and sets
@@ -463,7 +464,7 @@ export const useFitnessStore = create<FitnessStore>((set, get) => ({
         !trainingExerciseResponse.success ||
         !trainingExerciseResponse.data?.[0]?.id
       ) {
-        throw new Error("Failed to create training exercise");
+        return { success: false, errorMessage: "Failed to create training exercise" };
       }
 
       const exerciseId = trainingExerciseResponse.data[0].id;
@@ -476,5 +477,7 @@ export const useFitnessStore = create<FitnessStore>((set, get) => ({
         });
       }
     }
+
+    return { success: true, errorMessage: "" };
   },
 }));
