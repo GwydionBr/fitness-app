@@ -153,8 +153,15 @@ const workout = () => {
                 }}
               />
             )}
+            ListHeaderComponent={
+              <View style={{ height: 80 }} />
+            }
+            ListFooterComponent={
+              <View style={styles.submitButton}>
+                <Button title="Save" onPress={handleSaveWorkout} />
+              </View>
+            }
           />
-        <Button title="Save" onPress={handleSaveWorkout} />
         </View>
       </>
     );
@@ -182,8 +189,9 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingTop: 70,
-    paddingBottom: 60,
     width: "100%",
+  },
+  submitButton: {
+    marginBottom: 70,
   },
 });
