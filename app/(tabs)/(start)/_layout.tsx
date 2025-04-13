@@ -33,15 +33,15 @@ export default function StartLayout() {
         }}
       />
       <Stack.Screen
-        name="(category)/categoryScreen"
+        name="(trainingExercise)/allExercises"
         options={{
-          title: "Your Categories",
+          title: "All Exercises",
         }}
       />
       <Stack.Screen
-        name="(trainingExercise)"
+        name="(trainingExercise)/addExercise"
         options={{
-          title: "Your Exercises",
+          title: "Add Exercise",
         }}
       />
       <Stack.Screen
@@ -56,6 +56,16 @@ export default function StartLayout() {
           title: "Account",
         }}
       />
+      <Stack.Screen
+        name="(category)/categoryScreen"
+        options={{
+          title: "Categories",
+        }}
+      />
+      <Stack.Screen
+        name="(category)/[categoryId]"
+      />
+      
     </Stack>
   );
 }

@@ -54,7 +54,7 @@ export default function RootLayout() {
     if (fontsLoaded && !isLoading) {
       SplashScreen.hideAsync();
       if (session) {
-        router.replace("/workout");
+        router.replace("/start");
       } else {
         router.replace("/auth");
       }
