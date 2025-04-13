@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, ScrollView, FlatList, View, Alert, Button } from "react-native";
+import {
+  StyleSheet,
+  ScrollView,
+  FlatList,
+  View,
+  Alert,
+  Button,
+} from "react-native";
 import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
 import WorkoutTimer from "@/components/workout/WorkoutTimer";
 import SelectTrainingCategory from "@/components/workout/SelectTrainingCategory";
 import { useFitnessStore } from "@/stores/FitnessStore";
 import { Tables, TablesInsert } from "@/types/db.types";
-import { router, useNavigation } from "expo-router";
+import { useRouter, useNavigation } from "expo-router";
 import TrainingExerciseForm from "@/components/workout/TrainingExerciseForm";
+import IconButton from "@/components/ui/IconButton";
 
 export interface WorkoutExercise {
   trainingExercise: TablesInsert<"training_exercise">;
@@ -15,9 +23,10 @@ export interface WorkoutExercise {
 
 const workout = () => {
   const navigation = useNavigation();
-
+  const router = useRouter();
   // Store variables
-  const { categories, getExercisesByCategoryId, createWorkoutSession } = useFitnessStore();
+  const { categories, getExercisesByCategoryId, createWorkoutSession } =
+    useFitnessStore();
   const [selectedCategory, setSelectedCategory] =
     useState<Tables<"category"> | null>(null);
 
@@ -39,6 +48,12 @@ const workout = () => {
       return () => clearInterval(interval);
     }
   }, [startTime]);
+
+  const resetWorkout = () => {
+    setSelectedCategory(null);
+    setStartTime(0);
+    setWorkoutExercises([]);
+  };
 
   // Handle category submit
   function handleCategorySubmit(category: Tables<"category">) {
@@ -83,22 +98,34 @@ const workout = () => {
   };
 
   const handleDeleteExercise = (exerciseIndex: number) => {
-    Alert.alert("Delete Exercise", "Are you sure you want to delete this exercise?", [
-      { text: "Cancel", style: "cancel" },
-      { text: "Delete", style: "destructive", onPress: () => {
-        const newWorkoutExercises = [...workoutExercises];
-        newWorkoutExercises.splice(exerciseIndex, 1);
-        setWorkoutExercises(newWorkoutExercises);
-      } },
-    ]);
+    Alert.alert(
+      "Delete Exercise",
+      "Are you sure you want to delete this exercise?",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: () => {
+            const newWorkoutExercises = [...workoutExercises];
+            newWorkoutExercises.splice(exerciseIndex, 1);
+            setWorkoutExercises(newWorkoutExercises);
+          },
+        },
+      ]
+    );
   };
 
   const handleSaveWorkout = async () => {
     if (selectedCategory) {
-      const response = await createWorkoutSession(selectedCategory?.id, new Date(startTime), new Date(), workoutExercises);
+      const response = await createWorkoutSession(
+        selectedCategory?.id,
+        new Date(startTime),
+        new Date(),
+        workoutExercises
+      );
       if (response.success) {
-        setSelectedCategory(null);
-        setStartTime(0);
+        resetWorkout();
         setWorkoutExercises([]);
         router.replace("/progress");
       } else {
@@ -107,10 +134,36 @@ const workout = () => {
     }
   };
 
+  const handleCancelWorkout = () => {
+    Alert.alert(
+      "Cancel Workout",
+      "Are you sure you want to cancel this workout?",
+      [
+        { text: "Continue Workout", style: "cancel" },
+        {
+          text: "Cancel Workout",
+          style: "destructive",
+          onPress: () => {
+            resetWorkout();
+          },
+        },
+      ]
+    );
+  };
+
   // Set header title
   useEffect(() => {
     navigation.setOptions({
       headerTitle: selectedCategory ? selectedCategory.title : "Workout",
+      headerRight: ({ tintColor, size }: { tintColor: string; size: number }) =>
+        selectedCategory && (
+          <IconButton
+            icon="xmark"
+            size={size}
+            color={tintColor}
+            onPress={handleCancelWorkout}
+          />
+        ),
     });
   }, [navigation, selectedCategory]);
 
@@ -153,9 +206,7 @@ const workout = () => {
                 }}
               />
             )}
-            ListHeaderComponent={
-              <View style={{ height: 80 }} />
-            }
+            ListHeaderComponent={<View style={{ height: 80 }} />}
             ListFooterComponent={
               <View style={styles.submitButton}>
                 <Button title="Save" onPress={handleSaveWorkout} />
