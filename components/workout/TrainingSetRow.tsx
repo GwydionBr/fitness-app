@@ -8,6 +8,7 @@ interface TrainingSetRowProps {
   index: number;
   reps: number;
   weight: number;
+  isEditing: boolean;
   onRepsChange?: (reps: number) => void;
   onWeightChange?: (weight: number) => void;
   style?: StyleProp<ViewStyle>;
@@ -17,6 +18,7 @@ export default function TrainingSetRow({
   index,
   reps,
   weight,
+  isEditing,
   onRepsChange,
   onWeightChange,
   style
@@ -27,7 +29,7 @@ export default function TrainingSetRow({
   return (
     <ThemedView style={[styles.container, style]}>
       <ThemedText style={styles.index}>{index + 1}</ThemedText>
-      {isEditingReps ? (
+      {isEditing && isEditingReps ? (
         <ThemedNumberInput
           autoFocus
           value={reps.toString()}
@@ -40,7 +42,7 @@ export default function TrainingSetRow({
           <ThemedText style={styles.reps}>{reps}</ThemedText>
         </Pressable>
       )}
-      {isEditingWeight ? (
+      {isEditing && isEditingWeight ? (
         <ThemedNumberInput
           autoFocus
           value={weight.toString()}

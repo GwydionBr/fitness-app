@@ -11,6 +11,7 @@ import DeleteSwipeRow from "../ui/DeleteSwipeRow";
 
 interface TrainingExerciseFormProps {
   workoutExercise: WorkoutExercise;
+  isEditing: boolean;
   onSetChange: (set: TablesInsert<"training_set">, setIndex: number) => void;
   onAddSet: () => void;
   onDeleteSet: (setIndex: number) => void;
@@ -19,6 +20,7 @@ interface TrainingExerciseFormProps {
 
 export default function TrainingExerciseForm({
   workoutExercise,
+  isEditing,
   onSetChange,
   onAddSet,
   onDeleteSet,
@@ -38,12 +40,14 @@ export default function TrainingExerciseForm({
           </ThemedText>
         )}
         </View>
-        <IconButton
-          icon="trash"
-          size={18}
+        {isEditing && (
+          <IconButton
+            icon="trash"
+            size={18}
           color="red"
-          onPress={onDeleteExercise}
-        />
+            onPress={onDeleteExercise}
+          />
+        )}
       </View>
       <View style={styles.tableHeader}>
         <ThemedText style={styles.tableHeaderText}>Set</ThemedText>
@@ -56,10 +60,12 @@ export default function TrainingExerciseForm({
         stopRightSwipe={-100}
         closeOnRowBeginSwipe={true}
         closeOnScroll={true}
+        disableLeftSwipe={!isEditing}
         disableRightSwipe
         keyExtractor={(item, index) => `set-${index}`}
         renderItem={({ item, index }) => (
           <TrainingSetRow
+            isEditing={isEditing}
             style={styles.trainingSetRow}
             key={`set-row-${index}`}
             index={index}
@@ -75,15 +81,17 @@ export default function TrainingExerciseForm({
           <DeleteSwipeRow onDelete={() => onDeleteSet(index)} size={24} style={styles.trainingSetRow}/>
         )}
       />
-      <View style={styles.addSetRow}>
-        <IconButton
-          icon="plus"
-          size={18}
-          color="white"
-          onPress={onAddSet}
+      {isEditing && (
+        <View style={styles.addSetRow}>
+          <IconButton
+            icon="plus"
+            size={18}
+            color="white"
+            onPress={onAddSet}
           buttonStyle={styles.addSetButton}
-        />
-      </View>
+          />
+        </View>
+      )}
     </ThemedView>
   );
 }

@@ -1,13 +1,13 @@
+import React,{ useLayoutEffect, useState, useEffect } from "react";
+import { View, StyleSheet, Alert, FlatList } from "react-native";
+import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
+
 import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
 import { ThemedText } from "@/components/ThemedText";
-import { useLocalSearchParams } from "expo-router";
-import { View, StyleSheet, Alert, FlatList } from "react-native";
 import { useFitnessStore } from "@/stores/FitnessStore";
-import { useNavigation, useRouter } from "expo-router";
-import { useLayoutEffect, useState, useEffect } from "react";
-import { Tables } from "@/types/db.types";
 import IconButton from "@/components/ui/IconButton";
 import TrainingExerciseForm from "@/components/workout/TrainingExerciseForm";
+import { Tables } from "@/types/db.types";
 
 export default function TrainingSessionDetail() {
   const { trainingSessionId } = useLocalSearchParams();
@@ -22,6 +22,7 @@ export default function TrainingSessionDetail() {
   const [trainingSets, setTrainingSets] = useState<Tables<"training_set">[]>(
     []
   );
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     const fetchSessionData = async () => {
@@ -29,6 +30,7 @@ export default function TrainingSessionDetail() {
       setTrainingSession(sessionData.session);
       setTrainingExercises(sessionData.exercises);
       setTrainingSets(sessionData.sets);
+      setIsEditing(false);
     };
     fetchSessionData();
   }, [trainingSessionId, getSessionData]);
@@ -61,12 +63,20 @@ export default function TrainingSessionDetail() {
         tintColor: string;
         size: number;
       }) => (
-        <IconButton
-          icon="trash"
-          size={size}
-          color={tintColor}
-          onPress={handleDeleteTrainingSession}
-        />
+        <>
+          <IconButton
+            icon="trash"
+            size={size}
+            color={tintColor}
+            onPress={handleDeleteTrainingSession}
+          />
+          <IconButton
+            icon="pencil"
+            size={size}
+            color={tintColor}
+            onPress={() => setIsEditing((prevValue) => !prevValue)}
+          />
+        </>
       ),
     });
   }, [navigation]);
@@ -82,6 +92,7 @@ export default function TrainingSessionDetail() {
           data={trainingExercises}
           renderItem={({ item }) => (
             <TrainingExerciseForm
+              isEditing={isEditing}
               workoutExercise={{
                 trainingExercise: item,
                 sets: trainingSets.filter(
@@ -94,6 +105,8 @@ export default function TrainingSessionDetail() {
               onDeleteExercise={() => {}}
             />
           )}
+          ListHeaderComponent={<View style={{ height: 30 }} />}
+          ListFooterComponent={<View style={{ height: 70 }} />}
         />
       </View>
     </ThemedSafeAreaView>

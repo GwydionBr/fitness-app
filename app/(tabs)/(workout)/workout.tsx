@@ -185,6 +185,7 @@ const workout = () => {
             data={workoutExercises}
             renderItem={({ item, index }) => (
               <TrainingExerciseForm
+                isEditing={true}
                 workoutExercise={item}
                 onAddSet={() => handleAddSet(index)}
                 onDeleteSet={(setIndex) => handleDeleteSet(index, setIndex)}
