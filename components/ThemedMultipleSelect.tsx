@@ -11,6 +11,7 @@ export type ThemedMultipleSelectProps<T> = {
   lightColor?: string;
   darkColor?: string;
   withBorder?: boolean;
+  single?: boolean;
   label?: string;
   style?: StyleProp<ViewStyle>;
   labelStyle?: StyleProp<TextStyle>;
@@ -24,10 +25,12 @@ const ThemedMultipleSelect = <T extends unknown>({
   lightColor,
   darkColor,
   withBorder,
+  single,
   label,
   style,
   labelStyle,
   selectStyle,
+  ...otherProps
 }: ThemedMultipleSelectProps<T>) => {
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
@@ -53,6 +56,7 @@ const ThemedMultipleSelect = <T extends unknown>({
       >
         <MultiSelect
           items={items}
+          single={single}
           uniqueKey="id"
           displayKey="name"
           onSelectedItemsChange={onSelectedItemsChange}
@@ -74,6 +78,7 @@ const ThemedMultipleSelect = <T extends unknown>({
           submitButtonColor={color}
           styleTextDropdown={{ color }}
           styleTextDropdownSelected={{ color }}
+          {...otherProps}
         />
       </View>
     </View>
