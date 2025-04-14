@@ -14,8 +14,8 @@ export default function TabsLayout() {
         tabBarActiveTintColor: tintColor,
         tabBarActiveBackgroundColor: tabBarActiveBackground,
         headerShown: false,
-        tabBarBackground: () => <HeaderBackground />,
         tabBarItemStyle: styles.tabBatItem,
+        tabBarStyle: styles.tabBar,
       }}
     >
       <Tabs.Screen
@@ -50,9 +50,15 @@ export default function TabsLayout() {
 }
 
 const styles = StyleSheet.create({
+  tabBar: {
+    position: "absolute",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+  },
   tabBatItem: {
     flex: 1,
-    borderRadius: 30,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
     overflow: "hidden",
   },
 });

@@ -1,4 +1,4 @@
-const tintColorLight = 'rgb(10, 126, 164)';
+const tintColorLight = 'rgb(0, 0, 0)';
 const tintColorDark = 'rgb(255, 255, 255)';
 
 export const Colors = {
@@ -26,7 +26,7 @@ export const Colors = {
     icon: "rgb(155, 161, 166)",
     tabIconDefault: "rgb(155, 161, 166)",
     tabIconSelected: tintColorDark,
-    tabBarActiveBackground: "rgb(26, 26, 26)",
+    tabBarActiveBackground: "rgb(34, 34, 34)",
     headerTintColor: "rgb(236, 237, 238)",
     inputBackground: "rgb(26, 26, 26)",
     inputPlaceholder: "rgb(136, 136, 136)",
