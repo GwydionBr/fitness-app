@@ -2,7 +2,6 @@ import { StyleSheet } from "react-native";
 import { Tabs } from "expo-router";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import HeaderBackground from "@/components/ui/HeaderBackground";
 
 export default function TabsLayout() {
   const tintColor = useThemeColor({}, "tabIconSelected");

@@ -99,6 +99,7 @@ interface FitnessStore {
   deleteTrainingSet: (id: string) => Promise<void>;
 
   // Helper functions
+  getExerciseById: (exerciseId: string) => Tables<"exercise"> | undefined;
   getExercisesByCategoryId: (categoryId: string) => Tables<"exercise">[];
   getCategoriesByExerciseId: (exerciseId: string) => Tables<"category">[];
   getSessionData: (sessionId: string) => Promise<{
@@ -535,6 +536,11 @@ export const useFitnessStore = create<FitnessStore>((set, get) => ({
   },
 
   // Helper Functions
+  getExerciseById: (exerciseId: string) => {
+    const { exercises } = get();
+    return exercises.find((exercise) => exercise.id === exerciseId);
+  },
+
   getExercisesByCategoryId: (categoryId) => {
     const { exercises, exerciseCategories } = get();
     const exerciseIds = exerciseCategories

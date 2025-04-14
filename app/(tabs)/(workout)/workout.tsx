@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useFitnessStore } from "@/stores/FitnessStore";
+import { useRouter, useNavigation } from "expo-router";
+
 import {
   StyleSheet,
   ScrollView,
@@ -10,18 +13,20 @@ import {
 import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
 import WorkoutTimer from "@/components/workout/WorkoutTimer";
 import SelectTrainingCategory from "@/components/workout/SelectTrainingCategory";
-import { useFitnessStore } from "@/stores/FitnessStore";
-import { Tables } from "@/types/db.types";
-import { useRouter, useNavigation } from "expo-router";
 import TrainingExerciseForm from "@/components/workout/TrainingExerciseForm";
 import IconButton from "@/components/ui/IconButton";
 import { WorkoutExercise } from "@/stores/FitnessStore";
+import ThemedSearchModal, { Item } from "@/components/ui/ThemedSearchModal";
+
+import { Tables } from "@/types/db.types";
 
 const workout = () => {
   const navigation = useNavigation();
   const router = useRouter();
+
+  const [showModal, setShowModal] = useState(false);
   // Store variables
-  const { categories, getExercisesByCategoryId, createWorkoutSession } =
+  const { exercises: allExercises, categories, getExercisesByCategoryId, createWorkoutSession, getExerciseById } =
     useFitnessStore();
   const [selectedCategory, setSelectedCategory] =
     useState<Tables<"category"> | null>(null);
@@ -59,8 +64,6 @@ const workout = () => {
         trainingExercise: {
           ...exercise,
           ecercise_id: exercise.id,
-          max_repetitions: null,
-          max_weight: null,
           training_session_id: "",
         },
         sets: [
@@ -76,6 +79,10 @@ const workout = () => {
     setSelectedCategory(category);
     setStartTime(Date.now());
   }
+
+  const handleAddExercise = () => {
+    setShowModal((prev) => !prev);
+  };
 
   const handleAddSet = (exerciseIndex: number) => {
     const newWorkoutExercises = [...workoutExercises];
@@ -147,17 +154,44 @@ const workout = () => {
     );
   };
 
+  const handleModalClose = (item?: Item) => {
+    if (item) {
+      // Add exercise to workout
+      const exercise = getExerciseById(item.id);
+      if (exercise) {
+        setWorkoutExercises([...workoutExercises, {
+          trainingExercise: {
+            ...exercise,
+            ecercise_id: exercise.id,
+            training_session_id: "",
+          },
+          sets: [{ repetitions: 0, weight: 0, training_exercise_id: "" }],
+        }]);
+      }
+    }
+    setShowModal(false);
+  };  
+
   // Set header title
   useEffect(() => {
     navigation.setOptions({
       headerTitle: selectedCategory ? selectedCategory.title : "Workout",
-      headerRight: ({ tintColor, size }: { tintColor: string; size: number }) =>
+      headerLeft: ({ tintColor, size }: { tintColor: string; size: number }) =>
         selectedCategory && (
           <IconButton
             icon="xmark"
             size={size}
             color={tintColor}
             onPress={handleCancelWorkout}
+          />
+        ),
+      headerRight: ({ tintColor, size }: { tintColor: string; size: number }) =>
+        selectedCategory && (
+          <IconButton
+            icon="plus"
+            size={size}
+            color={tintColor}
+            onPress={handleAddExercise}
           />
         ),
     });
@@ -178,8 +212,16 @@ const workout = () => {
     );
   } else {
     content = (
-      <>
+      <ThemedSafeAreaView style={styles.rootContainer}>
         <WorkoutTimer seconds={trainingSeconds} />
+        <ThemedSearchModal
+          visible={showModal}
+          onClose={handleModalClose}
+          items={allExercises.map((exercise) => ({
+            id: exercise.id,
+            name: exercise.title + " (" + exercise.information + ")",
+          }))}
+        />
         <View style={styles.container}>
           <FlatList
             data={workoutExercises}
@@ -210,7 +252,7 @@ const workout = () => {
             }
           />
         </View>
-      </>
+      </ThemedSafeAreaView>
     );
   }
 
@@ -240,5 +282,19 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     marginBottom: 70,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    borderRadius: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });
