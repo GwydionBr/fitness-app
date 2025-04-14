@@ -29,17 +29,20 @@ interface FitnessStore {
   deleteCategory: (id: string) => Promise<void>;
 
   // Exercise CRUD Functions
-  createExercise: (data: TablesInsert<"exercise">) => Promise<void>;
-  updateExercise: (id: string, data: TablesUpdate<"exercise">) => Promise<void>;
+  createExercise: (
+    data: TablesInsert<"exercise">,
+    categoryIds?: string[]
+  ) => Promise<void>;
+  updateExercise: (
+    id: string,
+    data: TablesUpdate<"exercise">,
+    categoryIds?: string[]
+  ) => Promise<void>;
   deleteExercise: (id: string) => Promise<void>;
 
   // Exercise Category CRUD Functions
   createExerciseCategory: (
     data: TablesInsert<"exercise_category">
-  ) => Promise<void>;
-  updateExerciseCategory: (
-    id: string,
-    data: TablesUpdate<"exercise_category">
   ) => Promise<void>;
   deleteExerciseCategory: (id: string) => Promise<void>;
 
@@ -87,7 +90,7 @@ interface FitnessStore {
   getSessionData: (sessionId: string) => Promise<{
     session: Tables<"training_session">;
     exercises: Tables<"training_exercise">[];
-    sets: Tables<"training_set">[]; 
+    sets: Tables<"training_set">[];
   }>;
 
   createWorkoutSession: (
@@ -171,14 +174,24 @@ export const useFitnessStore = create<FitnessStore>((set, get) => ({
     }
   },
 
-  createExercise: async (data) => {
+  createExercise: async (data, categoryIds) => {
+    const { createExerciseCategory } = get();
     const response = await actions.createRow({ tableName: "exercise", data });
     if (response.success) {
       set((state) => ({ exercises: [...state.exercises, ...response.data] }));
+      if (categoryIds) {
+        for (const categoryId of categoryIds) {
+          await createExerciseCategory({
+            exercise_id: response.data[0].id,
+            category_id: categoryId,
+          });
+        }
+      }
     }
   },
 
-  updateExercise: async (id, data) => {
+  updateExercise: async (id, data, categoryIds) => {
+    const { createExerciseCategory, exerciseCategories, deleteExerciseCategory } = get();
     const response = await actions.updateRow({
       tableName: "exercise",
       id,
@@ -190,6 +203,24 @@ export const useFitnessStore = create<FitnessStore>((set, get) => ({
           item.id === id ? { ...item, ...data } : item
         ),
       }));
+      if (categoryIds) {
+        const existingExerciseCategories = exerciseCategories.filter(
+          (ec) => ec.exercise_id === id
+        );
+        for (const ec of existingExerciseCategories) {
+          if (!categoryIds.includes(ec.category_id)) {
+            await deleteExerciseCategory(ec.id);
+          }
+        }
+        for (const categoryId of categoryIds) {
+          if (!existingExerciseCategories.some((ec) => ec.category_id === categoryId)) {
+            await createExerciseCategory({
+              exercise_id: id,
+              category_id: categoryId,
+            });
+          }
+        }
+      }
     }
   },
 
@@ -214,20 +245,7 @@ export const useFitnessStore = create<FitnessStore>((set, get) => ({
     }
   },
 
-  updateExerciseCategory: async (id, data) => {
-    const response = await actions.updateRow({
-      tableName: "exercise_category",
-      id,
-      data,
-    });
-    if (response.success) {
-      set((state) => ({
-        exerciseCategories: state.exerciseCategories.map((item) =>
-          item.id === id ? { ...item, ...data } : item
-        ),
-      }));
-    }
-  },
+
 
   deleteExerciseCategory: async (id) => {
     const response = await actions.deleteRow({
@@ -427,12 +445,18 @@ export const useFitnessStore = create<FitnessStore>((set, get) => ({
 
   getSessionData: async (sessionId: string) => {
     const { trainingSessions, trainingExercises, trainingSets } = get();
-    const session = trainingSessions.find((session) => session.id === sessionId);
+    const session = trainingSessions.find(
+      (session) => session.id === sessionId
+    );
     if (!session) {
-      throw new Error('Session not found');
+      throw new Error("Session not found");
     }
-    const exercises = trainingExercises.filter((exercise) => exercise.training_session_id === sessionId);
-    const sets = trainingSets.filter((set) => exercises.some((exercise) => exercise.id === set.training_exercise_id));
+    const exercises = trainingExercises.filter(
+      (exercise) => exercise.training_session_id === sessionId
+    );
+    const sets = trainingSets.filter((set) =>
+      exercises.some((exercise) => exercise.id === set.training_exercise_id)
+    );
     return { session, exercises, sets };
   },
 
