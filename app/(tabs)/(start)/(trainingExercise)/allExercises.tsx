@@ -34,6 +34,9 @@ export default function AllExercises() {
         data={exercises}
         renderItem={({ item }) => (
           <ExerciseRow
+            onPress={() => {
+              router.push(`/(tabs)/(start)/(trainingExercise)/${item.id}`);
+            }}
             exercise={item}
             categories={getCategoriesByExerciseId(item.id)}
           />

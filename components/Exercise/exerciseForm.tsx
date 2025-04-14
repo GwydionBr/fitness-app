@@ -81,6 +81,6 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   buttonContainer: {
-    marginBottom: 90,
+    marginBottom: 10,
   },
 });

@@ -1,18 +1,26 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 import { ThemedText } from "../ThemedText";
 import { Tables } from "@/types/db.types";
 
 interface ExerciseRowProps {
   exercise: Tables<"exercise">;
   categories?: Tables<"category">[];
+  onPress?: () => void;
 }
 
 export default function ExerciseRow({
   exercise,
   categories,
+  onPress,
 }: ExerciseRowProps) {
   return (
-    <View style={styles.container}>
+    <Pressable
+      style={({ pressed }) => [
+        styles.container,
+        onPress && pressed && styles.pressed,
+      ]}
+      onPress={onPress}
+    >
       <View style={styles.upperRow}>
         <ThemedText style={styles.text}>{exercise.title} </ThemedText>
         {exercise.information && (
@@ -30,7 +38,7 @@ export default function ExerciseRow({
           </ThemedText>
         </View>
       )}
-    </View>
+    </Pressable>
   );
 }
 
@@ -54,5 +62,8 @@ const styles = StyleSheet.create({
   },
   categoryText: {
     fontSize: 12,
+  },
+  pressed: {
+    opacity: 0.5,
   },
 });
