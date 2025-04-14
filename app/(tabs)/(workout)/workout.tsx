@@ -123,7 +123,7 @@ const workout = () => {
       if (response.success) {
         resetWorkout();
         setWorkoutExercises([]);
-        router.replace("/progress");
+        router.replace("/(tabs)/(analysis)/analysis");
       } else {
         Alert.alert("Error", response.errorMessage);
       }
