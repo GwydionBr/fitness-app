@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useColorScheme } from "@/hooks/useColorScheme";
 
 import {
@@ -41,6 +41,7 @@ export default function ThemedSearchModal({
     setFilteredItems(items);
   };
 
+
   return (
     <Modal visible={visible} animationType="slide">
       <KeyboardAvoidingView
@@ -55,7 +56,7 @@ export default function ThemedSearchModal({
               renderItem={({ item }) => (
                 <Pressable
                   style={({ pressed }) => [
-                    { opacity: pressed ? 0.5 : 1 },
+                    { opacity: pressed ? 0.70 : 1 },
                     styles.itemRow,
                   ]}
                   onPress={() => handleClose(item)}

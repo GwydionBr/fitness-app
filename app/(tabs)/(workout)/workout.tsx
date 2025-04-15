@@ -26,8 +26,13 @@ const workout = () => {
 
   const [showModal, setShowModal] = useState(false);
   // Store variables
-  const { exercises: allExercises, categories, getExercisesByCategoryId, createWorkoutSession, getExerciseById } =
-    useFitnessStore();
+  const {
+    exercises: allExercises,
+    categories,
+    getExercisesByCategoryId,
+    createWorkoutSession,
+    getExerciseById,
+  } = useFitnessStore();
   const [selectedCategory, setSelectedCategory] =
     useState<Tables<"category"> | null>(null);
 
@@ -35,6 +40,20 @@ const workout = () => {
   const [workoutExercises, setWorkoutExercises] = useState<WorkoutExercise[]>(
     []
   );
+  const [filteredExercises, setFilteredExercises] = useState<
+    Tables<"exercise">[]
+  >([]);
+
+  // Update filteredExercises whenever workoutExercises changes
+  useEffect(() => {
+    const usedExerciseIds = workoutExercises.map(
+      (exercise) => exercise.trainingExercise.ecercise_id
+    );
+    const newFilteredExercises = allExercises.filter(
+      (exercise) => !usedExerciseIds.includes(exercise.id)
+    );
+    setFilteredExercises(newFilteredExercises);
+  }, [workoutExercises, allExercises]);
 
   // Timer variables
   const [startTime, setStartTime] = useState<number>(0);
@@ -55,6 +74,31 @@ const workout = () => {
     setStartTime(0);
     setWorkoutExercises([]);
   };
+
+  // Set header title
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: selectedCategory ? selectedCategory.title : "Workout",
+      headerLeft: ({ tintColor, size }: { tintColor: string; size: number }) =>
+        selectedCategory && (
+          <IconButton
+            icon="xmark"
+            size={size}
+            color={tintColor}
+            onPress={handleCancelWorkout}
+          />
+        ),
+      headerRight: ({ tintColor, size }: { tintColor: string; size: number }) =>
+        selectedCategory && (
+          <IconButton
+            icon="plus"
+            size={size}
+            color={tintColor}
+            onPress={() => setShowModal(true)}
+          />
+        ),
+    });
+  }, [navigation, selectedCategory]);
 
   // Handle category submit
   function handleCategorySubmit(category: Tables<"category">) {
@@ -79,10 +123,6 @@ const workout = () => {
     setSelectedCategory(category);
     setStartTime(Date.now());
   }
-
-  const handleAddExercise = () => {
-    setShowModal((prev) => !prev);
-  };
 
   const handleAddSet = (exerciseIndex: number) => {
     const newWorkoutExercises = [...workoutExercises];
@@ -110,9 +150,15 @@ const workout = () => {
           text: "Delete",
           style: "destructive",
           onPress: () => {
+            const exerciseId =
+              workoutExercises[exerciseIndex].trainingExercise.ecercise_id;
             const newWorkoutExercises = [...workoutExercises];
             newWorkoutExercises.splice(exerciseIndex, 1);
             setWorkoutExercises(newWorkoutExercises);
+            const exercise = getExerciseById(exerciseId);
+            if (exercise) {
+              setFilteredExercises((prev) => [...prev, exercise]);
+            }
           },
         },
       ]
@@ -159,43 +205,21 @@ const workout = () => {
       // Add exercise to workout
       const exercise = getExerciseById(item.id);
       if (exercise) {
-        setWorkoutExercises([...workoutExercises, {
-          trainingExercise: {
-            ...exercise,
-            ecercise_id: exercise.id,
-            training_session_id: "",
+        setWorkoutExercises([
+          ...workoutExercises,
+          {
+            trainingExercise: {
+              ...exercise,
+              ecercise_id: exercise.id,
+              training_session_id: "",
+            },
+            sets: [{ repetitions: 0, weight: 0, training_exercise_id: "" }],
           },
-          sets: [{ repetitions: 0, weight: 0, training_exercise_id: "" }],
-        }]);
+        ]);
       }
     }
     setShowModal(false);
-  };  
-
-  // Set header title
-  useEffect(() => {
-    navigation.setOptions({
-      headerTitle: selectedCategory ? selectedCategory.title : "Workout",
-      headerLeft: ({ tintColor, size }: { tintColor: string; size: number }) =>
-        selectedCategory && (
-          <IconButton
-            icon="xmark"
-            size={size}
-            color={tintColor}
-            onPress={handleCancelWorkout}
-          />
-        ),
-      headerRight: ({ tintColor, size }: { tintColor: string; size: number }) =>
-        selectedCategory && (
-          <IconButton
-            icon="plus"
-            size={size}
-            color={tintColor}
-            onPress={handleAddExercise}
-          />
-        ),
-    });
-  }, [navigation, selectedCategory]);
+  };
 
   // Render content
   let content = null;
@@ -217,9 +241,11 @@ const workout = () => {
         <ThemedSearchModal
           visible={showModal}
           onClose={handleModalClose}
-          items={allExercises.map((exercise) => ({
+          items={filteredExercises.map((exercise) => ({
             id: exercise.id,
-            name: exercise.title + " (" + exercise.information + ")",
+            name:
+              exercise.title +
+              (exercise.information && " (" + exercise.information + ")"),
           }))}
         />
         <View style={styles.container}>
