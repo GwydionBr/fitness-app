@@ -18,6 +18,8 @@ export const Colors = {
     expenseRow: "rgb(248, 215, 218)",
     incomeRow: "rgb(212, 237, 218)",
     newTest: "rgba(255, 255, 255, 0.1)",
+    primary: "rgb(211, 159, 18)",
+    secondary: "rgb(168, 194, 23)",
   },
   dark: {
     text: "rgb(236, 237, 238)",
@@ -34,6 +36,8 @@ export const Colors = {
     shadow: "rgb(255, 255, 255)",
     expenseRow: "rgb(132, 32, 41)",
     incomeRow: "rgb(15, 81, 50)",
+    primary: "rgb(204, 157, 26)",
+    secondary: "rgb(149, 170, 26)",
   },
 };
 

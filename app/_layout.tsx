@@ -4,10 +4,6 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 
-import * as eva from "@eva-design/eva";
-import { ApplicationProvider } from "@ui-kitten/components"
-import { default as theme} from "@/custom-theme.json";
-
 import "react-native-reanimated";
 import { useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
@@ -36,7 +32,6 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session);
       await fetchAllData();
@@ -62,15 +57,13 @@ export default function RootLayout() {
   }, [fontsLoaded, isLoading, session]);
 
   return (
-    <ApplicationProvider {...eva} theme={{ ...eva[colorScheme], ...theme }}>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-        <StatusBar style="auto" />
-      </ThemeProvider>
-    </ApplicationProvider>
+    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="+not-found" />
+      </Stack>
+      <StatusBar style="auto" />
+    </ThemeProvider>
   );
 }
