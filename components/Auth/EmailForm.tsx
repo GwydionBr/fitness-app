@@ -89,9 +89,10 @@ export default function EmailForm() {
       <View style={[styles.verticallySpaced, styles.mt20]}>
         {mode === "signIn" ? (
           <Pressable
-            style={[
+            style={({ pressed }) => [
               styles.button,
               { shadowColor: shadowColor, backgroundColor: primaryColor },
+              pressed && styles.pressed,
             ]}
             disabled={loading}
             onPress={() => signInWithEmail()}
@@ -100,9 +101,10 @@ export default function EmailForm() {
           </Pressable>
         ) : (
           <Pressable
-            style={[
+            style={({ pressed }) => [
               styles.button,
               { shadowColor: shadowColor, backgroundColor: secondaryColor },
+              pressed && styles.pressed,
             ]}
             disabled={loading}
             onPress={() => signUpWithEmail()}
@@ -112,7 +114,10 @@ export default function EmailForm() {
         )}
       </View>
       <Pressable
-        style={styles.toggleButton}
+        style={({ pressed }) => [
+          styles.toggleButton,
+          pressed && styles.pressed,
+        ]}
         onPress={toggleMode}
         disabled={loading}
       >
@@ -165,5 +170,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
     color: "grey",
+  },
+  pressed: {
+    opacity: 0.75,
   },
 });
