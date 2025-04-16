@@ -4,7 +4,7 @@ import { useFitnessStore } from "@/stores/FitnessStore";
 import { useNavigation, useRouter } from "expo-router";
 
 import { View, StyleSheet, Button } from "react-native";
-import ExerciseRow from "@/components/Exercise/ExerciseRow";
+import ExerciseRow from "@/components/Exercise/exerciseRow";
 import { ThemedText } from "@/components/ThemedText";
 import ThemedTextInput from "@/components/ThemedTextInput";
 import { SwipeListView } from "react-native-swipe-list-view";

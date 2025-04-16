@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import ExerciseForm from "@/components/Exercise/ExerciseForm";
+import ExerciseForm from "@/components/Exercise/exerciseForm";
 
 export default function AddExercise() {
   return (

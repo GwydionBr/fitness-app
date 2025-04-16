@@ -1,6 +1,6 @@
 import { useLayoutEffect } from "react";
 import { View, StyleSheet } from "react-native";
-import ExerciseForm from "@/components/Exercise/ExerciseForm";
+import ExerciseForm from "@/components/Exercise/exerciseForm";
 
 import { useNavigation } from "expo-router";
 import { useLocalSearchParams } from "expo-router";

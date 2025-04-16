@@ -1,7 +1,7 @@
 import { useLayoutEffect } from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
-import ExerciseRow from "@/components/Exercise/ExerciseRow";
+import ExerciseRow from "@/components/Exercise/exerciseRow";
 import IconButton from "@/components/ui/IconButton";
 
 import { useFitnessStore } from "@/stores/FitnessStore";
