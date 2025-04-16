@@ -4,6 +4,7 @@ const tintColorDark = 'rgb(255, 255, 255)';
 export const Colors = {
   light: {
     text: "rgb(17, 24, 28)",
+    secondaryText: "rgb(104, 112, 118)",
     background: "rgb(255, 255, 255)",
     tint: tintColorLight,
     icon: "rgb(104, 112, 118)",
@@ -23,6 +24,7 @@ export const Colors = {
   },
   dark: {
     text: "rgb(236, 237, 238)",
+    secondaryText: "rgb(155, 161, 166)",
     background: "rgb(21, 23, 24)",
     tint: tintColorDark,
     icon: "rgb(155, 161, 166)",

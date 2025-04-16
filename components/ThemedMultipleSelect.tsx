@@ -1,6 +1,12 @@
 import React from "react";
 import MultiSelect from "react-native-multiple-select";
-import { StyleProp, StyleSheet, View, ViewStyle, TextStyle } from "react-native";
+import {
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+  TextStyle,
+} from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { useThemeColor } from "@/hooks/useThemeColor";
 
@@ -15,7 +21,7 @@ export type ThemedMultipleSelectProps<T> = {
   label?: string;
   style?: StyleProp<ViewStyle>;
   labelStyle?: StyleProp<TextStyle>;
-  selectStyle?: StyleProp<ViewStyle>;
+  mainStyle?: StyleProp<ViewStyle>;
 };
 
 const ThemedMultipleSelect = <T extends unknown>({
@@ -29,7 +35,7 @@ const ThemedMultipleSelect = <T extends unknown>({
   label,
   style,
   labelStyle,
-  selectStyle,
+  mainStyle,
   ...otherProps
 }: ThemedMultipleSelectProps<T>) => {
   const backgroundColor = useThemeColor(
@@ -40,47 +46,54 @@ const ThemedMultipleSelect = <T extends unknown>({
     { light: lightColor, dark: darkColor },
     "inputText"
   );
+  const buttonColor = useThemeColor({}, "primary");
+  const secondaryTextColor = useThemeColor({}, "secondaryText");
 
   return (
     <View style={[styles.rootContainer, style]}>
       {label && (
         <ThemedText style={[styles.label, labelStyle]}>{label}</ThemedText>
       )}
-      <View
-        style={[
+      <MultiSelect
+        items={items}
+        single={single}
+        uniqueKey="id"
+        displayKey="name"
+        onSelectedItemsChange={onSelectedItemsChange}
+        selectedItems={selectedItems}
+        selectText="Kategorien"
+        searchInputPlaceholderText="Suche eine Kategorie..."
+        styleMainWrapper={[
           { backgroundColor },
+          styles.mainWrapper,
           withBorder && { borderWidth: 1, borderColor: color },
-          styles.selectContainer,
-          selectStyle,
+          mainStyle,
         ]}
-      >
-        <MultiSelect
-          items={items}
-          single={single}
-          uniqueKey="id"
-          displayKey="name"
-          onSelectedItemsChange={onSelectedItemsChange}
-          selectedItems={selectedItems}
-          selectText="Pick items"
-          searchInputPlaceholderText="Search Items..."
-          styleMainWrapper={styles.multiSelect}
-          styleDropdownMenuSubsection={[
-            styles.dropdownMenuSubsection,
-            { backgroundColor, borderColor: color },
-          ]}
-          tagRemoveIconColor={color}
-          tagBorderColor={color}
-          tagTextColor={color}
-          selectedItemTextColor={color}
-          selectedItemIconColor={color}
-          itemTextColor={color}
-          searchInputStyle={{ color }}
-          submitButtonColor={color}
-          styleTextDropdown={{ color }}
-          styleTextDropdownSelected={{ color }}
-          {...otherProps}
-        />
-      </View>
+        styleDropdownMenu={[styles.dropdownMenu, { borderColor: color }]}
+        styleDropdownMenuSubsection={[
+          styles.dropdownMenuSubsection,
+          { backgroundColor },
+        ]}
+        // searchInputStyle={[styles.searchInput]}
+        styleIndicator={[styles.indicator]}
+        styleInputGroup={[
+          styles.inputGroup,
+          { backgroundColor, borderColor: color },
+        ]}
+        styleItemsContainer={[styles.itemsContainer, { backgroundColor }]}
+        styleListContainer={styles.listContainer}
+        styleRowList={[styles.rowList, { borderColor: color }]}
+        styleSelectorContainer={[styles.selectorContainer]}
+        styleTextDropdown={[styles.textDropdown, { color: secondaryTextColor }]}
+        styleTextDropdownSelected={[styles.textDropdownSelected, { color: secondaryTextColor }]}
+        tagBorderColor={color}
+        tagTextColor={color}
+        selectedItemTextColor={color}
+        selectedItemIconColor={color}
+        itemTextColor={secondaryTextColor}
+        submitButtonColor={buttonColor}
+        {...otherProps}
+      />
     </View>
   );
 };
@@ -93,18 +106,71 @@ const styles = StyleSheet.create({
   label: {
     marginBottom: 8,
   },
-  selectContainer: {
+  mainWrapper: {
+    padding: 10,
+    width: "100%",
     borderRadius: 8,
     overflow: "hidden",
   },
-  multiSelect: {
-    width: "100%",
+
+  // Ausgeklappt
+  selectorContainer: {
+    // borderWidth: 1,
+    // borderColor: "red",
   },
-  dropdownMenuSubsection: {
+  searchInput: {
+    // backgroundColor: "blue",
+  },
+
+  // Input
+  inputGroup: {
+    padding: 9,
+    borderWidth: 1,
+    borderRadius: 8,
+  },
+
+  // List
+  itemsContainer: {
+    // borderWidth: 2,
+    // borderColor: "red",
+    padding: 10,
+  },
+  rowList: {
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 4,
+    marginVertical: 2,
+  },
+  listContainer: {
+    // borderRadius: 8,
+    // borderWidth: 2,
+    // borderColor: "orange",
+  },
+
+  // Dropdown Menu
+  dropdownMenu: {
+    // backgroundColor: "orange",
+    overflow: "hidden",
+    paddingLeft: 10,
     borderRadius: 8,
     borderWidth: 1,
-    paddingLeft: 10,
-    paddingRight: 10,
+    // borderColor: "red",
+  },
+  textDropdown: {
+    // backgroundColor: "red",
+  },
+  textDropdownSelected: {
+    // backgroundColor: "blue",
+  },
+  indicator: {
+    // backgroundColor: "red",
+    left: 15,
+    height: 30,
+  },
+
+  // Some other styles
+  dropdownMenuSubsection: {
+    // backgroundColor: "purple",
   },
 });
 

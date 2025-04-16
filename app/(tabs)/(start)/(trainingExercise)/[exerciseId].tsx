@@ -1,6 +1,6 @@
 import { useLayoutEffect } from "react";
 import { View, StyleSheet } from "react-native";
-import ExerciseForm from "@/components/Exercise/exerciseForm";
+import ExerciseForm from "@/components/Exercise/ExerciseForm";
 
 import { useNavigation } from "expo-router";
 import { useLocalSearchParams } from "expo-router";
@@ -20,7 +20,11 @@ export default function EditExercise() {
 
   return (
     <View style={styles.container}>
-      <ExerciseForm existingExercise={exercises.find((exercise) => exercise.id === exerciseId)} />
+      <ExerciseForm
+        existingExercise={exercises.find(
+          (exercise) => exercise.id === exerciseId
+        )}
+      />
     </View>
   );
 }

@@ -50,9 +50,6 @@ export default function TabsLayout() {
 
 const styles = StyleSheet.create({
   tabBar: {
-    position: "absolute",
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
   },
   tabBatItem: {
     flex: 1,

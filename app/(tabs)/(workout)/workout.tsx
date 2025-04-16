@@ -19,6 +19,7 @@ import { WorkoutExercise } from "@/stores/FitnessStore";
 import ThemedSearchModal, { Item } from "@/components/ui/ThemedSearchModal";
 
 import { Tables } from "@/types/db.types";
+import ThemedButton from "@/components/ThemedButton";
 
 const workout = () => {
   const navigation = useNavigation();
@@ -273,7 +274,7 @@ const workout = () => {
             ListHeaderComponent={<View style={{ height: 80 }} />}
             ListFooterComponent={
               <View style={styles.submitButton}>
-                <Button title="Save" onPress={handleSaveWorkout} />
+                <ThemedButton type="secondary" onPress={handleSaveWorkout}>Save</ThemedButton>
               </View>
             }
           />
@@ -307,7 +308,8 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   submitButton: {
-    marginBottom: 70,
+    marginBottom: 25,
+    marginHorizontal: 25,
   },
   modalContainer: {
     flex: 1,

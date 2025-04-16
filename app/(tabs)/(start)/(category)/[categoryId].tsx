@@ -4,7 +4,7 @@ import { useFitnessStore } from "@/stores/FitnessStore";
 import { useNavigation, useRouter } from "expo-router";
 
 import { View, StyleSheet, Button } from "react-native";
-import ExerciseRow from "@/components/Exercise/exerciseRow";
+import ExerciseRow from "@/components/Exercise/ExerciseRow";
 import { ThemedText } from "@/components/ThemedText";
 import ThemedTextInput from "@/components/ThemedTextInput";
 import { SwipeListView } from "react-native-swipe-list-view";
@@ -12,6 +12,7 @@ import DeleteSwipeRow from "@/components/ui/DeleteSwipeRow";
 import ThemedMultipleSelect from "@/components/ThemedMultipleSelect";
 
 import { Tables } from "@/types/db.types";
+import ThemedButton from "@/components/ThemedButton";
 
 export default function CategoryScreen() {
   const { categoryId } = useLocalSearchParams();
@@ -109,7 +110,9 @@ export default function CategoryScreen() {
           />
         )}
       />
-      <Button title="Save" onPress={handleSave} />
+      <ThemedButton type="primary" onPress={handleSave}>
+        Save
+      </ThemedButton>
     </View>
   );
 }

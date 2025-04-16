@@ -6,6 +6,7 @@ import ThemedMultipleSelect from "@/components/ThemedMultipleSelect";
 import ThemedTextInput from "../ThemedTextInput";
 
 import { useRouter } from "expo-router";
+import ThemedButton from "../ThemedButton";
 
 interface ExerciseFormProps {
   existingExercise?: Tables<"exercise">;
@@ -69,7 +70,7 @@ export default function ExerciseForm({ existingExercise }: ExerciseFormProps) {
         withBorder
       />
       <View style={styles.buttonContainer}>
-        <Button title="Submit" onPress={handleSubmit} />
+        <ThemedButton type="primary" onPress={handleSubmit}>Submit</ThemedButton>
       </View>
     </View>
   );  
