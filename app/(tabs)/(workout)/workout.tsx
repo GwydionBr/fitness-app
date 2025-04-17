@@ -1,80 +1,54 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useFitnessStore } from "@/stores/FitnessStore";
+import { TimerState, useWorkoutStore } from "@/stores/WorkoutStore";
 import { useRouter, useNavigation } from "expo-router";
 
-import {
-  StyleSheet,
-  ScrollView,
-  FlatList,
-  View,
-  Alert,
-  Button,
-} from "react-native";
+import { StyleSheet, ScrollView, FlatList, View, Alert } from "react-native";
 import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
 import WorkoutTimer from "@/components/workout/WorkoutTimer";
 import SelectTrainingCategory from "@/components/workout/SelectTrainingCategory";
 import TrainingExerciseForm from "@/components/workout/TrainingExerciseForm";
 import IconButton from "@/components/ui/IconButton";
-import { WorkoutExercise } from "@/stores/FitnessStore";
-import ThemedSearchModal, { Item } from "@/components/ui/ThemedSearchModal";
-
-import { Tables } from "@/types/db.types";
 import ThemedButton from "@/components/ThemedButton";
+
+import type { WorkoutExercise } from "@/stores/FitnessStore";
+import type { Tables } from "@/types/db.types";
 
 const workout = () => {
   const navigation = useNavigation();
   const router = useRouter();
 
-  const [showModal, setShowModal] = useState(false);
-  // Store variables
+  // Fitness Store variables
   const {
-    exercises: allExercises,
     categories,
     getExercisesByCategoryId,
     createWorkoutSession,
-    getExerciseById,
   } = useFitnessStore();
-  const [selectedCategory, setSelectedCategory] =
-    useState<Tables<"category"> | null>(null);
 
-  // Fitness variables
-  const [workoutExercises, setWorkoutExercises] = useState<WorkoutExercise[]>(
-    []
-  );
-  const [filteredExercises, setFilteredExercises] = useState<
-    Tables<"exercise">[]
-  >([]);
+  // Workout Store variables
+  const {
+    timerState,
+    startTime,
+    trainingSeconds,
+    workoutExercises,
+    selectedCategory,
+    setTrainingSeconds,
+    setWorkoutExercises,
+    setSelectedCategory,
+    startWorkout,
+    resetWorkout,
+    addSet,
+    deleteExercise,
+  } = useWorkoutStore();
 
-  // Update filteredExercises whenever workoutExercises changes
   useEffect(() => {
-    const usedExerciseIds = workoutExercises.map(
-      (exercise) => exercise.trainingExercise.ecercise_id
-    );
-    const newFilteredExercises = allExercises.filter(
-      (exercise) => !usedExerciseIds.includes(exercise.id)
-    );
-    setFilteredExercises(newFilteredExercises);
-  }, [workoutExercises, allExercises]);
-
-  // Timer variables
-  const [startTime, setStartTime] = useState<number>(0);
-  const [trainingSeconds, setTrainingSeconds] = useState<number>(0);
-
-  // Timer
-  useEffect(() => {
-    if (startTime > 0) {
+    if (startTime && timerState === TimerState.Running) {
       const interval = setInterval(() => {
         setTrainingSeconds(Math.floor((Date.now() - startTime) / 1000));
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [startTime]);
-
-  const resetWorkout = () => {
-    setSelectedCategory(null);
-    setStartTime(0);
-    setWorkoutExercises([]);
-  };
+  }, [startTime, timerState]);
 
   // Set header title
   useEffect(() => {
@@ -95,14 +69,13 @@ const workout = () => {
             icon="plus"
             size={size}
             color={tintColor}
-            onPress={() => setShowModal(true)}
+            onPress={() => router.push("/addTrainingExercise")}
           />
         ),
     });
   }, [navigation, selectedCategory]);
 
-  // Handle category submit
-  function handleCategorySubmit(category: Tables<"category">) {
+  const handleCategorySubmit = (category: Tables<"category">) => {
     const exercises = getExercisesByCategoryId(category.id);
     const workoutExercises: WorkoutExercise[] = exercises.map((exercise) => {
       return {
@@ -122,17 +95,7 @@ const workout = () => {
     });
     setWorkoutExercises(workoutExercises);
     setSelectedCategory(category);
-    setStartTime(Date.now());
-  }
-
-  const handleAddSet = (exerciseIndex: number) => {
-    const newWorkoutExercises = [...workoutExercises];
-    newWorkoutExercises[exerciseIndex].sets.push({
-      repetitions: 0,
-      weight: 0,
-      training_exercise_id: "",
-    });
-    setWorkoutExercises(newWorkoutExercises);
+    startWorkout();
   };
 
   const handleDeleteSet = (exerciseIndex: number, setIndex: number) => {
@@ -151,15 +114,7 @@ const workout = () => {
           text: "Delete",
           style: "destructive",
           onPress: () => {
-            const exerciseId =
-              workoutExercises[exerciseIndex].trainingExercise.ecercise_id;
-            const newWorkoutExercises = [...workoutExercises];
-            newWorkoutExercises.splice(exerciseIndex, 1);
-            setWorkoutExercises(newWorkoutExercises);
-            const exercise = getExerciseById(exerciseId);
-            if (exercise) {
-              setFilteredExercises((prev) => [...prev, exercise]);
-            }
+            deleteExercise(exerciseIndex);
           },
         },
       ]
@@ -167,7 +122,7 @@ const workout = () => {
   };
 
   const handleSaveWorkout = async () => {
-    if (selectedCategory) {
+    if (selectedCategory && startTime) {
       const response = await createWorkoutSession(
         selectedCategory?.id,
         new Date(startTime),
@@ -201,27 +156,6 @@ const workout = () => {
     );
   };
 
-  const handleModalClose = (item?: Item) => {
-    if (item) {
-      // Add exercise to workout
-      const exercise = getExerciseById(item.id);
-      if (exercise) {
-        setWorkoutExercises([
-          ...workoutExercises,
-          {
-            trainingExercise: {
-              ...exercise,
-              ecercise_id: exercise.id,
-              training_session_id: "",
-            },
-            sets: [{ repetitions: 0, weight: 0, training_exercise_id: "" }],
-          },
-        ]);
-      }
-    }
-    setShowModal(false);
-  };
-
   // Render content
   let content = null;
 
@@ -239,16 +173,6 @@ const workout = () => {
     content = (
       <ThemedSafeAreaView style={styles.rootContainer}>
         <WorkoutTimer seconds={trainingSeconds} />
-        <ThemedSearchModal
-          visible={showModal}
-          onClose={handleModalClose}
-          items={filteredExercises.map((exercise) => ({
-            id: exercise.id,
-            name:
-              exercise.title +
-              (exercise.information && " (" + exercise.information + ")"),
-          }))}
-        />
         <View style={styles.container}>
           <FlatList
             data={workoutExercises}
@@ -256,7 +180,7 @@ const workout = () => {
               <TrainingExerciseForm
                 isEditing={true}
                 workoutExercise={item}
-                onAddSet={() => handleAddSet(index)}
+                onAddSet={() => addSet(index)}
                 onDeleteSet={(setIndex) => handleDeleteSet(index, setIndex)}
                 onDeleteExercise={() => handleDeleteExercise(index)}
                 onSetChange={(set, setIndex) => {
@@ -274,7 +198,9 @@ const workout = () => {
             ListHeaderComponent={<View style={{ height: 80 }} />}
             ListFooterComponent={
               <View style={styles.submitButton}>
-                <ThemedButton type="secondary" onPress={handleSaveWorkout}>Save</ThemedButton>
+                <ThemedButton type="secondary" onPress={handleSaveWorkout}>
+                  Save
+                </ThemedButton>
               </View>
             }
           />
@@ -310,19 +236,5 @@ const styles = StyleSheet.create({
   submitButton: {
     marginBottom: 25,
     marginHorizontal: 25,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    borderRadius: 20,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
   },
 });
