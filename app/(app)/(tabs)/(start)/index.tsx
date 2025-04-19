@@ -12,6 +12,9 @@ export default function StartScreen() {
       <Link href="/allExercises" style={styles.link}>
         <ThemedText>Training Exercise</ThemedText>
       </Link>
+      <Link href="/allNewExercises" style={styles.link}>
+        <ThemedText>All New Exercises</ThemedText>
+      </Link>
     </ThemedSafeAreaView>
   );
 }
@@ -19,8 +22,8 @@ export default function StartScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   link: {
     marginTop: 20,

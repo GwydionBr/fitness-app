@@ -3,6 +3,9 @@ import { supabase } from "@/utils/supabase";
 import EmailForm from "@/components/Auth/EmailForm";
 import Auth from "@/components/Auth/Auth";
 import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
+import { useAuthStore } from "@/stores/AuthStore";
+import { useRouter } from "expo-router";
+import { useEffect } from "react";
 
 // Tells Supabase Auth to continuously refresh the session automatically if
 // the app is in the foreground. When this is added, you will continue to receive
@@ -17,6 +20,15 @@ AppState.addEventListener("change", (state) => {
 });
 
 export default function AuthScreen() {
+  const { session } = useAuthStore();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session) {
+      router.replace("/");
+    }
+  }, [session]);
+  
   return (
     <ThemedSafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
