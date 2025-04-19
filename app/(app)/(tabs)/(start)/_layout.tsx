@@ -15,7 +15,7 @@ export default function StartLayout() {
       }}
     >
       <Stack.Screen
-        name="start"
+        name="index"
         options={{
           title: "Start",
           headerTitleAlign: "center",

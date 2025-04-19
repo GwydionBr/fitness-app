@@ -40,7 +40,7 @@ export default function CategoryScreen() {
         title: category?.title,
       });
     } else {
-      router.back();
+      // router.back();
     }
   }, [categoryId, categories, router, navigation]);
 

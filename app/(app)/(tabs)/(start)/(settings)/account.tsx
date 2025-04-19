@@ -6,13 +6,14 @@ import Avatar from "@/components/Avatar";
 import { useAuthStore } from "@/stores/AuthStore";
 import Animated from "react-native-reanimated";
 import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
+import { useRouter } from "expo-router";
 
 export default function AccountScreen() {
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState("");
   const [website, setWebsite] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
-
+  const router = useRouter();
   const { session } = useAuthStore();
 
   useEffect(() => {
@@ -128,7 +129,10 @@ export default function AccountScreen() {
           <Button
             color="error"
             title="Sign Out"
-            onPress={() => supabase.auth.signOut()}
+            onPress={() => {
+              supabase.auth.signOut();
+              router.push("/auth");
+            }}
           />
         </View>
       </Animated.ScrollView>
