@@ -5,7 +5,7 @@ import {
   TrainingSessionResponse,
   TrainingExerciseResponse,
 } from "@/types/action.types";
-
+import { Exercise } from "@/types/exercise";
 export interface WorkoutExercise {
   trainingExercise: TablesInsert<"training_exercise">;
   sets: TablesInsert<"training_set">[];
