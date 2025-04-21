@@ -8,6 +8,7 @@ import { TablesInsert } from "@/types/db.types";
 import IconButton from "../ui/IconButton";
 import { SwipeListView } from "react-native-swipe-list-view";
 import DeleteSwipeRow from "../ui/DeleteSwipeRow";
+import { useState } from "react";
 
 interface TrainingExerciseFormProps {
   workoutExercise: WorkoutExercise;
@@ -28,23 +29,24 @@ export default function TrainingExerciseForm({
 }: TrainingExerciseFormProps) {
   const { trainingExercise: exercise, sets } = workoutExercise;
   const shadowColor = useThemeColor({}, "shadow");
+  const [scrollEnabled, setScrollEnabled] = useState(true);
 
   return (
     <ThemedView style={[styles.container, { shadowColor }]}>
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-        <ThemedText style={styles.title}>{exercise.title}</ThemedText>
-        {exercise.information && (
-          <ThemedText style={styles.subtitle}>
-            ({exercise.information})
-          </ThemedText>
-        )}
+          <ThemedText style={styles.title}>{exercise.title}</ThemedText>
+          {exercise.information && (
+            <ThemedText style={styles.subtitle}>
+              ({exercise.information})
+            </ThemedText>
+          )}
         </View>
         {isEditing && (
           <IconButton
             icon="trash"
             size={18}
-          color="red"
+            color="red"
             onPress={onDeleteExercise}
           />
         )}
@@ -59,14 +61,14 @@ export default function TrainingExerciseForm({
         rightOpenValue={-75}
         stopRightSwipe={-100}
         closeOnRowBeginSwipe={true}
-        closeOnScroll={true}
+        // closeOnScroll={true}
         disableLeftSwipe={!isEditing}
         disableRightSwipe
         keyExtractor={(item, index) => `set-${index}`}
         renderItem={({ item, index }) => (
           <TrainingSetRow
             isEditing={isEditing}
-            style={styles.trainingSetRow}
+            className=""
             key={`set-row-${index}`}
             index={index}
             reps={item.repetitions ?? 0}
@@ -78,8 +80,13 @@ export default function TrainingExerciseForm({
           />
         )}
         renderHiddenItem={({ index }) => (
-          <DeleteSwipeRow onDelete={() => onDeleteSet(index)} size={20} style={styles.trainingSetRow}/>
+          <DeleteSwipeRow
+            className=" "
+            onDelete={() => onDeleteSet(index)}
+            size={20}
+          />
         )}
+        swipeToOpenPercent={1}
       />
       {isEditing && (
         <View style={styles.addSetRow}>
@@ -88,7 +95,7 @@ export default function TrainingExerciseForm({
             size={18}
             color="white"
             onPress={onAddSet}
-          buttonStyle={styles.addSetButton}
+            buttonStyle={styles.addSetButton}
           />
         </View>
       )}
@@ -160,5 +167,5 @@ const styles = StyleSheet.create({
   },
   trainingSetRow: {
     marginTop: 5,
-  }
+  },
 });

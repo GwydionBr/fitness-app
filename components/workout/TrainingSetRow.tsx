@@ -3,7 +3,7 @@ import { StyleSheet, Pressable, ViewStyle, StyleProp } from "react-native";
 import { ThemedText } from "../ThemedText";
 import ThemedNumberInput from "../ThemedNumberInput";
 import { ThemedView } from "../ThemedView";
-
+import { useThemeStore } from "@/stores/ThemeStore";
 interface TrainingSetRowProps {
   index: number;
   reps: number;
@@ -12,6 +12,7 @@ interface TrainingSetRowProps {
   onRepsChange?: (reps: number) => void;
   onWeightChange?: (weight: number) => void;
   style?: StyleProp<ViewStyle>;
+  className?: string;
 }
 
 export default function TrainingSetRow({
@@ -21,13 +22,21 @@ export default function TrainingSetRow({
   isEditing,
   onRepsChange,
   onWeightChange,
-  style
+  style,
+  className,
 }: TrainingSetRowProps) {
+  const { theme } = useThemeStore();
   const [isEditingReps, setIsEditingReps] = useState(false);
   const [isEditingWeight, setIsEditingWeight] = useState(false);
 
   return (
-    <ThemedView style={[styles.container, style]}>
+    <ThemedView
+      className={`flex-row justify-between border-2 rounded-lg shadow-lg ${
+        theme === "dark"
+          ? "shadow-gray-800 border-gray-600"
+          : "shadow-gray-100 border-gray-300"
+      } ${className}`}
+    >
       <ThemedText style={styles.index}>{index + 1}</ThemedText>
       {isEditing && isEditingReps ? (
         <ThemedNumberInput

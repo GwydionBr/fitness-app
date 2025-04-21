@@ -1,16 +1,15 @@
 import { View, StyleSheet, StyleProp, ViewStyle } from "react-native";
-import { IconSymbol } from "./IconSymbol";
 import IconButton from "./IconButton";
 
 interface DeleteSwipeRowProps {
   onDelete: () => void;
   size?: number;
-  style?: StyleProp<ViewStyle>;
+  className?: string;
 }
 
-export default function DeleteSwipeRow({ onDelete, size = 20, style }: DeleteSwipeRowProps) {
+export default function DeleteSwipeRow({ onDelete, size = 20, className }: DeleteSwipeRowProps) {
   return (
-    <View style={[styles.rowBack, style]}>
+    <View className={`flex-row justify-end items-center rounded-md w-full ${className}`}>
       <IconButton
         icon="trash"
         size={size}

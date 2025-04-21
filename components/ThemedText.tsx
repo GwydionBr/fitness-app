@@ -6,6 +6,7 @@ export type ThemedTextProps = TextProps & {
   lightColor?: string;
   darkColor?: string;
   type?: 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link';
+  className?: string;
 };
 
 export function ThemedText({
@@ -13,13 +14,14 @@ export function ThemedText({
   lightColor,
   darkColor,
   type = 'default',
+  className,
   ...rest
 }: ThemedTextProps) {
   const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
 
   return (
     <Text
-      className={`text-base leading-6 text-l ${
+      className={`text-base leading-6 text-l ${className} ${
         type === 'title' ? 'text-3xl font-bold leading-8' :
         type === 'defaultSemiBold' ? 'text-base leading-6 font-semibold' :
         type === 'subtitle' ? 'text-xl font-bold' :

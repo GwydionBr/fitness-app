@@ -31,7 +31,7 @@ export default function RootLayout() {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session);
       if (session) {
-        fetchAllData();
+        await fetchAllData();
       }
       setLoading(false);
     });
@@ -39,7 +39,7 @@ export default function RootLayout() {
     supabase.auth.onAuthStateChange(async (_event, session) => {
       setSession(session);
       if (session) {
-        fetchAllData();
+        await fetchAllData();
       }
       setLoading(false);
     });

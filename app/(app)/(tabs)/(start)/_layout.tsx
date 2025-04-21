@@ -65,7 +65,12 @@ export default function StartLayout() {
       <Stack.Screen
         name="(category)/[categoryId]"
       />
-      
+      <Stack.Screen
+        name="(trainingExercise)/defaultExercise/[defaultExerciseId]"
+        options={{
+          title: "Exercise",
+        }}
+      />
     </Stack>
   );
 }
