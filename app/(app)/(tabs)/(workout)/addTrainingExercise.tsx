@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import ThemedSearchAndPickScreen, { Item } from "@/components/ui/ThemedSearchAndPickScreen";
 import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
 
@@ -13,7 +13,7 @@ const exercises: Item[] = [
 export default function AddTrainingExercise() {
   return (
     <ThemedSafeAreaView style={styles.container}>
-      <ThemedSearchAndPickScreen onClose={() => {}} items={exercises} />
+      <ThemedSearchAndPickScreen onClose={() => {}} items={exercises} bottomSearchBar />
     </ThemedSafeAreaView>
   );
 }

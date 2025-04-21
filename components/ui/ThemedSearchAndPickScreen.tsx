@@ -1,11 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useColorScheme } from "@/hooks/useColorScheme";
 
 import {
   FlatList,
-  Modal,
   StyleSheet,
-  Button,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -23,20 +21,48 @@ export interface Item {
 interface ThemedSearchAndPickScreenProps {
   onClose: (item?: Item) => void;
   items: Item[];
+  bottomSearchBar?: boolean;
 }
 
 export default function ThemedSearchAndPickScreen({
   onClose,
   items,
+  bottomSearchBar = false,
 }: ThemedSearchAndPickScreenProps) {
   const colorScheme = useColorScheme() || "light";
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredItems, setFilteredItems] = useState(items);
+  const [filteredItems, setFilteredItems] = useState<Item[]>([]);
+
+  useEffect(() => {
+    setFilteredItems(items);
+  }, [items]);
 
   const handleClose = (item?: Item) => {
     onClose(item);
     setSearchQuery("");
     setFilteredItems(items);
+  };
+
+  const renderSearchBar = () => {
+    return (
+      <SearchBar
+        style={styles.searchBar}
+        theme={colorScheme}
+        placeholder="Search"
+        onChangeText={(text) => {
+          setSearchQuery(text);
+          setFilteredItems(
+            items.filter((item) =>
+              item.name.toLowerCase().includes(text.toLowerCase())
+            )
+          );
+        }}
+        value={searchQuery}
+        onCancel={() => {
+          setSearchQuery("");
+        }}
+      />
+    );
   };
 
   return (
@@ -46,7 +72,7 @@ export default function ThemedSearchAndPickScreen({
     >
       <ThemedSafeAreaView style={{ flex: 1 }}>
         <ThemedView style={styles.modalContainer}>
-          {/* <Button title="Close" onPress={() => handleClose()} /> */}
+          {!bottomSearchBar && renderSearchBar()}
           <FlatList
             data={filteredItems}
             renderItem={({ item }) => (
@@ -60,26 +86,13 @@ export default function ThemedSearchAndPickScreen({
                 <ThemedText>{item.name}</ThemedText>
               </Pressable>
             )}
-            style={styles.list}
-            inverted={true}
+            style={[
+              styles.list,
+              bottomSearchBar ? { marginBottom: 30 } : { marginTop: 20 },
+            ]}
+            inverted={bottomSearchBar}
           />
-          <SearchBar
-            style={styles.searchBar}
-            theme={colorScheme}
-            placeholder="Search"
-            onChangeText={(text) => {
-              setSearchQuery(text);
-              setFilteredItems(
-                items.filter((item) =>
-                  item.name.toLowerCase().includes(text.toLowerCase())
-                )
-              );
-            }}
-            value={searchQuery}
-            onCancel={() => {
-              setSearchQuery("");
-            }}
-          />
+          {bottomSearchBar && renderSearchBar()}
         </ThemedView>
       </ThemedSafeAreaView>
     </KeyboardAvoidingView>
@@ -99,7 +112,6 @@ const styles = StyleSheet.create({
   list: {
     flex: 1,
     width: "100%",
-    marginBottom: 30,
   },
   searchBar: {
     width: "100%",
