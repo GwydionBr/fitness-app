@@ -23,8 +23,8 @@ const index = () => {
         data={trainingSessions}
         style={styles.sessionList}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TrainingSessionRow session={item} onPress={() => router.push(`/(tabs)/(analysis)/${item.id}`)} />
+        renderItem={({ item: trainingSession }) => (
+          <TrainingSessionRow session={trainingSession} onPress={() => router.push(`/(tabs)/(analysis)/${trainingSession.id}`)} />
         )}
         ListEmptyComponent={<ThemedText>No categories found</ThemedText>}
         />

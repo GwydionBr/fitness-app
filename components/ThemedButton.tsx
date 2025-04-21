@@ -73,7 +73,7 @@ export default function ThemedButton({
       {...props}
       style={style}
       disabled={isLoading || disabled}
-      className={`flex-row rounded-lg align-middle justify-center p-2 ${styleType[theme].button[type]} ${className}`}
+      className={`flex-row active:opacity-75 rounded-lg align-middle justify-center p-2 ${styleType[theme].button[type]} ${className}`}
     >
       {isLoading ? (
         <ActivityIndicator size="small" color={styleType[theme].text[type]} />

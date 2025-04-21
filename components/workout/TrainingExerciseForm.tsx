@@ -68,7 +68,7 @@ export default function TrainingExerciseForm({
         renderItem={({ item, index }) => (
           <TrainingSetRow
             isEditing={isEditing}
-            className=""
+            className="mt-2"
             key={`set-row-${index}`}
             index={index}
             reps={item.repetitions ?? 0}
@@ -81,7 +81,7 @@ export default function TrainingExerciseForm({
         )}
         renderHiddenItem={({ index }) => (
           <DeleteSwipeRow
-            className=" "
+            className="mt-2"
             onDelete={() => onDeleteSet(index)}
             size={20}
           />
