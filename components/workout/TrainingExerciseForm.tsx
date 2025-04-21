@@ -78,7 +78,7 @@ export default function TrainingExerciseForm({
           />
         )}
         renderHiddenItem={({ index }) => (
-          <DeleteSwipeRow onDelete={() => onDeleteSet(index)} size={24} style={styles.trainingSetRow}/>
+          <DeleteSwipeRow onDelete={() => onDeleteSet(index)} size={20} style={styles.trainingSetRow}/>
         )}
       />
       {isEditing && (

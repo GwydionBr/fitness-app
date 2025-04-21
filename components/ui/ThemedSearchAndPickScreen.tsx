@@ -77,10 +77,8 @@ export default function ThemedSearchAndPickScreen({
             data={filteredItems}
             renderItem={({ item }) => (
               <Pressable
-                style={({ pressed }) => [
-                  { opacity: pressed ? 0.7 : 1 },
-                  styles.itemRow,
-                ]}
+                style={styles.itemRow}
+                className="active:opacity-75"
                 onPress={() => handleClose(item)}
               >
                 <ThemedText>{item.name}</ThemedText>

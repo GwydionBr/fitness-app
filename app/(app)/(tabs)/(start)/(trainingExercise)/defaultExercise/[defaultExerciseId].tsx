@@ -8,6 +8,7 @@ import { db } from '@/db';
 import { Exercise, exercises } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { ThemedText } from "@/components/ThemedText";
+import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
 
 export default function EditExercise() {
   const { defaultExerciseId } = useLocalSearchParams();
@@ -27,9 +28,9 @@ export default function EditExercise() {
   }, [navigation, exercise, defaultExerciseId]);
 
   return (
-    <View style={styles.container}>
+    <ThemedSafeAreaView style={styles.container}>
       <ThemedText>{exercise?.name}</ThemedText>
-    </View>
+    </ThemedSafeAreaView>
   );
 }
 

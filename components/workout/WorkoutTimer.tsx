@@ -1,12 +1,14 @@
 import { StyleSheet,  View } from 'react-native'
 import { ThemedText } from '@/components/ThemedText'
 import { formatTimerSeconds } from '@/utils/timeHelper'
+import { useThemeStore } from '@/stores/ThemeStore'
 
 const WorkoutTimer = ({seconds} : {seconds: number}) => {
   const formatedTime = formatTimerSeconds(seconds)
+  const {theme} = useThemeStore()
 
   return (
-    <View style={styles.container}> 
+    <View className={`${theme === 'light' ? 'bg-blue-400' : 'bg-blue-800'} rounded-md p-3 m-2 absolute top-5 z-10`}> 
       <ThemedText style={styles.text}>{formatedTime}</ThemedText>
     </View>
   )
@@ -34,7 +36,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
   },
   text: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
   },
 })

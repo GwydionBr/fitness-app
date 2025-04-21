@@ -19,15 +19,14 @@ export function ThemedText({
 
   return (
     <Text
-      style={[
-        { color },
-        type === 'default' ? styles.default : undefined,
-        type === 'title' ? styles.title : undefined,
-        type === 'defaultSemiBold' ? styles.defaultSemiBold : undefined,
-        type === 'subtitle' ? styles.subtitle : undefined,
-        type === 'link' ? styles.link : undefined,
-        style,
-      ]}
+      className={`text-base leading-6 text-l ${
+        type === 'title' ? 'text-3xl font-bold leading-8' :
+        type === 'defaultSemiBold' ? 'text-base leading-6 font-semibold' :
+        type === 'subtitle' ? 'text-xl font-bold' :
+        type === 'link' ? 'leading-[30px] text-base text-[#0a7ea4]' :
+        ''
+      }`}
+      style={[{ color }, style]}
       {...rest}
     />
   );

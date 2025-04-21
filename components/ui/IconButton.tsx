@@ -25,7 +25,7 @@ const IconButton = ({
   return (
     <Pressable
       onPress={onPress}
-      style={({ pressed }) => pressed && styles.pressed}
+      className="active:opacity-75"
     >
       <View style={[styles.buttonContainer, buttonStyle]}>
         <IconSymbol name={icon} size={size} color={color ?? "black"} />

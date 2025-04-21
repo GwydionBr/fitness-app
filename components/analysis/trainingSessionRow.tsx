@@ -33,7 +33,7 @@ export default function TrainingSessionRow({
   return (
     <Pressable
       onPress={onPress}
-      style={({ pressed }) => [styles.container, pressed && styles.pressed]}
+      className="flex-row justify-between items-center border border-gray-300 rounded-md p-2 m-2 active:opacity-75"
     >
       <ThemedText>{formatDate(startTime)}</ThemedText>
       <ThemedText>{category?.title}</ThemedText>
