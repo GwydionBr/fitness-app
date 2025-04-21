@@ -5,7 +5,8 @@ import { ColorSchemeName } from "react-native";
 
 interface ThemeState {
   theme: "light" | "dark";
-  systemTheme: boolean; // true wenn System-Theme verwendet werden soll
+  isSystemThemeActive: boolean; // true wenn System-Theme verwendet werden soll
+  systemTheme: "light" | "dark";
   setTheme: (theme: "light" | "dark") => void;
   toggleTheme: () => void;
   setSystemTheme: (useSystem: boolean) => void;
@@ -15,28 +16,34 @@ interface ThemeState {
 
 export const useThemeStore = create<ThemeState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       theme: "light",
-      systemTheme: true, 
-      setTheme: (theme) => set({ theme, systemTheme: false }),
+      isSystemThemeActive: true,
+      systemTheme: "light",
+      setTheme: (theme) => set({ theme, isSystemThemeActive: false }),
       toggleTheme: () =>
         set((state) => ({
           theme: state.theme === "light" ? "dark" : "light",
-          systemTheme: false,
+          isSystemThemeActive: false,
         })),
-      setSystemTheme: (useSystem) => set({ systemTheme: useSystem }),
-      toggleSystemTheme: () =>
-        set((state) => ({
-          systemTheme: !state.systemTheme,
-          theme: state.systemTheme ? "light" : "dark",
-        })),
-      updateFromSystem: (systemTheme) =>
-        set((state) => {
-          if (state.systemTheme && systemTheme) {
-            return { theme: systemTheme };
+      setSystemTheme: (useSystem) => set({ isSystemThemeActive: useSystem }),
+      toggleSystemTheme: () => {
+        const { isSystemThemeActive, theme, systemTheme } = get();
+        const newIsSystemThemeActive = !isSystemThemeActive;
+        const newTheme = newIsSystemThemeActive ? systemTheme : theme;
+        set({ isSystemThemeActive: newIsSystemThemeActive, theme: newTheme });
+      },
+      updateFromSystem: (systemTheme) => {
+        const { isSystemThemeActive } = get();
+        set(() => {
+          if (isSystemThemeActive && systemTheme) {
+            return { theme: systemTheme, systemTheme: systemTheme };
+          } else if (!isSystemThemeActive && systemTheme) {
+            return { systemTheme: systemTheme };
           }
-          return state;
-        }),
+          return {};
+        });
+      },
     }),
     {
       name: "theme-storage",

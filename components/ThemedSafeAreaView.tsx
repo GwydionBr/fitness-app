@@ -10,8 +10,8 @@ type ThemedSafeAreaViewProps = ViewProps & PropsWithChildren & {
 
 const ThemedSafeAreaView = ({ children, style, className }: ThemedSafeAreaViewProps) => {
   return (
-    <ThemedView style={[styles.container]}>
-      <SafeAreaView style={[styles.container, style]} className={className}>{children}</SafeAreaView>
+    <ThemedView style={[styles.container]} className={className}>
+      <SafeAreaView style={[styles.container, style]}>{children}</SafeAreaView>
     </ThemedView>
   );
 };
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-})
+});

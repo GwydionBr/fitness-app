@@ -4,7 +4,7 @@ import { useThemeStore } from "@/stores/ThemeStore";
 
 export function useSystemThemeSync() {
   const systemColorScheme = useColorScheme();
-  const updateFromSystem = useThemeStore((state) => state.updateFromSystem);
+  const { updateFromSystem } = useThemeStore();
 
   useEffect(() => {
     updateFromSystem(systemColorScheme);

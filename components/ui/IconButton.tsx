@@ -6,13 +6,18 @@ import {
   ViewStyle,
 } from "react-native";
 import { IconSymbol, IconSymbolName } from "./IconSymbol";
+import { useThemeStore } from "@/stores/ThemeStore";
 
 interface IconButtonProps {
   icon: IconSymbolName;
   size: number;
   color?: string;
+  colorDark?: string;
   buttonStyle?: StyleProp<ViewStyle>;
   onPress: () => void;
+  className?: string;
+  withBorder?: boolean;
+  disabled?: boolean;
 }
 
 const IconButton = ({
@@ -21,29 +26,27 @@ const IconButton = ({
   color,
   onPress,
   buttonStyle,
+  className,
+  withBorder,
+  disabled,
 }: IconButtonProps) => {
+  const { theme } = useThemeStore();
   return (
     <Pressable
       onPress={onPress}
-      className="active:opacity-75"
+      disabled={disabled}
+      style={[buttonStyle]}
+      className={`active:opacity-75 p-2 ${disabled ? "opacity-50" : ""} ${
+        withBorder
+          ? `border-2 border-${
+              theme === "light" ? "gray-300" : "gray-700"
+            } rounded-md`
+          : ""
+      } ${className}`}
     >
-      <View style={[styles.buttonContainer, buttonStyle]}>
-        <IconSymbol name={icon} size={size} color={color ?? "black"} />
-      </View>
+      <IconSymbol name={icon} size={size} color={color ?? "black"} />
     </Pressable>
   );
 };
 
 export default IconButton;
-
-const styles = StyleSheet.create({
-  buttonContainer: {
-    padding: 6,
-    marginHorizontal: 8,
-    marginVertical: 2,
-  },
-  pressed: {
-    transform: [{ scale: 0.98 }],
-    opacity: 0.8,
-  },
-});
