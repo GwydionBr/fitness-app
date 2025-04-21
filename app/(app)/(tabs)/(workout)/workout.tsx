@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFitnessStore } from "@/stores/FitnessStore";
 import { TimerState, useWorkoutStore } from "@/stores/WorkoutStore";
 import { useRouter, useNavigation } from "expo-router";
@@ -17,6 +17,7 @@ import type { Tables } from "@/types/db.types";
 const workout = () => {
   const navigation = useNavigation();
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   // Fitness Store variables
   const {
@@ -122,6 +123,7 @@ const workout = () => {
   };
 
   const handleSaveWorkout = async () => {
+    setIsLoading(true);
     if (selectedCategory && startTime) {
       const response = await createWorkoutSession(
         selectedCategory?.id,
@@ -137,6 +139,7 @@ const workout = () => {
         Alert.alert("Error", response.errorMessage);
       }
     }
+    setIsLoading(false);
   };
 
   const handleCancelWorkout = () => {
@@ -198,7 +201,11 @@ const workout = () => {
             ListHeaderComponent={<View style={{ height: 80 }} />}
             ListFooterComponent={
               <View style={styles.submitButton}>
-                <ThemedButton type="secondary" onPress={handleSaveWorkout}>
+                <ThemedButton
+                  type="secondary"
+                  onPress={handleSaveWorkout}
+                  isLoading={isLoading}
+                >
                   Save
                 </ThemedButton>
               </View>
