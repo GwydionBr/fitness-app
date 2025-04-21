@@ -8,9 +8,9 @@ describe("ExerciseRow", () => {
     const mockExercise: Tables<"exercise"> = {
       id: "1",
       title: "Test Exercise",
-      description: "Test Description",
+      information: "Test Description",
       created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
+      user_id: "1",
     };
 
     const { getByText } = render(<ExerciseRow exercise={mockExercise} />);
