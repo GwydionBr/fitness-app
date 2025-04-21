@@ -22,14 +22,13 @@ export default function NewExerciseRow({
       onPress={onPress}
     >
       <ThemedView style={styles.container}>
-        <View style={styles.upperRow}>
+        <View style={styles.upperRow} >
           <Image
             source={getExerciseImage(exercise.images[0])}
             style={styles.image}
           />
           {/* <ThemedText>{exercise.images[0]}</ThemedText> */}
           <ThemedText style={styles.text}>{exercise.name} </ThemedText>
-          <ThemedText style={styles.text}>({exercise.primaryMuscles})</ThemedText>
           {/* {exercise.information && (
             <ThemedText style={styles.text}>
               ({exercise.information})

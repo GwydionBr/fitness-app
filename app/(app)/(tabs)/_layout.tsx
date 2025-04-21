@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Tabs } from "expo-router";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import { useThemeColor } from "@/hooks/useThemeColor";
@@ -6,6 +6,7 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 export default function TabsLayout() {
   const tintColor = useThemeColor({}, "tabIconSelected");
   const tabBarActiveBackground = useThemeColor({}, "tabBarActiveBackground");
+  const backgroundColor = useThemeColor({}, "background");
 
   return (
     <Tabs
@@ -15,6 +16,7 @@ export default function TabsLayout() {
         headerShown: false,
         tabBarItemStyle: styles.tabBatItem,
         tabBarStyle: styles.tabBar,
+        tabBarBackground: () => <View style={{ flex: 1, backgroundColor }} />,
       }}
     >
       <Tabs.Screen

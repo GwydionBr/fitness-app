@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import SearchBar from "react-native-platform-searchbar";
 import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
 import NewExerciseRow from "@/components/Exercise/newExerciseRow";
+import { router } from "expo-router";
 
 export default function AllNewExercises() {
   const colorScheme = useColorScheme() || "light";
@@ -45,7 +46,7 @@ export default function AllNewExercises() {
       />
       <FlatList
         data={filteredExercises}
-        renderItem={({ item }) => <NewExerciseRow exercise={item} />}
+        renderItem={({ item }) => <NewExerciseRow exercise={item} onPress={() => router.push(`/defaultExercise/${item.id}`)}/>}
       />
     </ThemedSafeAreaView>
   );

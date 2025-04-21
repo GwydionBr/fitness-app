@@ -1,17 +1,17 @@
-import { Link, Stack } from "expo-router";
-import { useColorScheme } from "@/hooks/useColorScheme";
+import { Stack } from "expo-router";
 import HeaderBackground from "@/components/ui/HeaderBackground";
 import IconButton from "@/components/ui/IconButton";
 import { useRouter } from "expo-router";
+import { useThemeStore } from "@/stores/ThemeStore";
 
 export default function StartLayout() {
-  const colorScheme = useColorScheme() ?? "light";
+  const { theme } = useThemeStore();
   const router = useRouter();
   return (
     <Stack
       screenOptions={{
         headerBackground: () => <HeaderBackground />,
-        headerTintColor: colorScheme === "dark" ? "#ECEDEE" : "#11181C",
+        headerTintColor: theme === "dark" ? "#ECEDEE" : "#11181C",
       }}
     >
       <Stack.Screen
@@ -24,7 +24,7 @@ export default function StartLayout() {
             <IconButton
               icon="gear"
               size={24}
-              color={colorScheme === "dark" ? "#ECEDEE" : "#11181C"}
+              color={theme === "dark" ? "#ECEDEE" : "#11181C"}
               onPress={() => {
                 router.push("/settings");
               }}

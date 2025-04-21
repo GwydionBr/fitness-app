@@ -1,8 +1,4 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
+import "@/global.css";
 
 import "react-native-reanimated";
 import { useEffect } from "react";
@@ -11,10 +7,9 @@ import { StatusBar } from "expo-status-bar";
 
 import { supabase } from "@/utils/supabase";
 import { useAuthStore } from "@/stores/AuthStore";
-import { useColorScheme } from "@/hooks/useColorScheme";
 import { useFitnessStore } from "@/stores/FitnessStore";
-import { useRouter } from "expo-router";
-
+import { useThemeStore } from "@/stores/ThemeStore";
+import { useSystemThemeSync } from "@/hooks/useSystemThemeSync";
 // DB imports
 import { seedDatabase } from "@/utils/seedDatabase";
 import { db, DATABASE_NAME } from "@/db";
@@ -25,8 +20,10 @@ import { SQLiteProvider } from "expo-sqlite";
 export default function RootLayout() {
   const { setSession, setLoading } = useAuthStore();
   const { fetchAllData } = useFitnessStore();
-  const colorScheme = useColorScheme() || "light";
-  const router = useRouter();
+  const { theme } = useThemeStore();
+
+  // Hook zum Synchronisieren des System-Themes
+  useSystemThemeSync();
 
   const { success, error } = useMigrations(db, migrations);
 
@@ -55,14 +52,12 @@ export default function RootLayout() {
   }, [success]);
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <SQLiteProvider
-        databaseName={DATABASE_NAME}
-        options={{ enableChangeListener: true }}
-      >
-        <StatusBar style="auto" />
-        <Stack screenOptions={{ headerShown: false }} />
-      </SQLiteProvider>
-    </ThemeProvider>
+    <SQLiteProvider
+      databaseName={DATABASE_NAME}
+      options={{ enableChangeListener: true }}
+    >
+      <StatusBar style={theme === "dark" ? "light" : "dark"} />
+      <Stack screenOptions={{ headerShown: false }} />
+    </SQLiteProvider>
   );
 }
