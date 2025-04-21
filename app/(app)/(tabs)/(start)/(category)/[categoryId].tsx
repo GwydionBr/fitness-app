@@ -3,7 +3,7 @@ import { useLocalSearchParams } from "expo-router";
 import { useFitnessStore } from "@/stores/FitnessStore";
 import { useNavigation, useRouter } from "expo-router";
 
-import { View, StyleSheet, Button } from "react-native";
+import { StyleSheet, View } from "react-native";
 import ExerciseRow from "@/components/Exercise/exerciseRow";
 import { ThemedText } from "@/components/ThemedText";
 import ThemedTextInput from "@/components/ThemedTextInput";
@@ -13,6 +13,7 @@ import ThemedMultipleSelect from "@/components/ThemedMultipleSelect";
 
 import { Tables } from "@/types/db.types";
 import ThemedButton from "@/components/ThemedButton";
+import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
 
 export default function CategoryScreen() {
   const { categoryId } = useLocalSearchParams();
@@ -72,7 +73,7 @@ export default function CategoryScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <ThemedSafeAreaView style={styles.container}>
       <ThemedTextInput
         label="Name"
         withBorder
@@ -110,10 +111,17 @@ export default function CategoryScreen() {
           />
         )}
       />
-      <ThemedButton type="primary" onPress={handleSave}>
-        Save
-      </ThemedButton>
-    </View>
+      <View className="flex-row justify-center">
+        <ThemedButton
+          type="primary"
+          className="m-3 mb-10 p-4 w-36"
+          textClassName="text-xl font-bold"
+          onPress={handleSave}
+        >
+          Save
+        </ThemedButton>
+      </View>
+    </ThemedSafeAreaView>
   );
 }
 

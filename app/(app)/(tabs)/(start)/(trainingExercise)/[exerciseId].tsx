@@ -5,6 +5,7 @@ import ExerciseForm from "@/components/Exercise/exerciseForm";
 import { useNavigation } from "expo-router";
 import { useLocalSearchParams } from "expo-router";
 import { useFitnessStore } from "@/stores/FitnessStore";
+import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
 
 export default function EditExercise() {
   const { exerciseId } = useLocalSearchParams();
@@ -19,13 +20,13 @@ export default function EditExercise() {
   }, [navigation, exercises, exerciseId]);
 
   return (
-    <View style={styles.container}>
+    <ThemedSafeAreaView style={styles.container}>
       <ExerciseForm
         existingExercise={exercises.find(
           (exercise) => exercise.id === exerciseId
         )}
       />
-    </View>
+    </ThemedSafeAreaView>
   );
 }
 

@@ -7,6 +7,7 @@ import IconButton from "@/components/ui/IconButton";
 import { useFitnessStore } from "@/stores/FitnessStore";
 import { useNavigation, useRouter } from "expo-router";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
 
 export default function AllExercises() {
   const { exercises, getCategoriesByExerciseId } = useFitnessStore();
@@ -29,7 +30,7 @@ export default function AllExercises() {
     });
   }, [navigation, colorScheme]);
   return (
-    <ThemedView style={styles.container}>
+    <ThemedSafeAreaView style={styles.container}>
       <FlatList
         data={exercises}
         renderItem={({ item }) => (
@@ -42,7 +43,7 @@ export default function AllExercises() {
           />
         )}
       />
-    </ThemedView>
+    </ThemedSafeAreaView>
   );
 }
 
