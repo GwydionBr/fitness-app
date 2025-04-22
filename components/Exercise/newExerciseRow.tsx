@@ -1,9 +1,12 @@
 import { View, StyleSheet, Pressable, Image } from "react-native";
 import { ThemedText } from "../ThemedText";
 import { Tables } from "@/types/db.types";
-import { ThemedView } from "../ThemedView";
-import { Exercise } from "@/db/schema";
+import { Exercise, exercises } from "@/db/schema";
 import { getExerciseImage } from "@/utils/imageLoader";
+import IconButton from "../ui/IconButton";
+import { useState } from "react";
+import { db } from "@/db";
+import { eq } from "drizzle-orm";
 
 interface NewExerciseRowProps {
   exercise: Exercise;
@@ -16,37 +19,40 @@ export default function NewExerciseRow({
   categories,
   onPress,
 }: NewExerciseRowProps) {
+  const [isFavorite, setIsFavorite] = useState(exercise.isFavorite);
+
+  async function handleFavoritePress() {
+    setIsFavorite((prev) => !prev);
+    await db.update(exercises).set({ isFavorite: !isFavorite }).where(eq(exercises.id, exercise.id));
+  }
+  
   return (
     <Pressable
-      style={({ pressed }) => [onPress && pressed && styles.pressed]}
+      className="active:opacity-75 p-2 m-2 rounded-lg border border-gray-400"
       onPress={onPress}
     >
-      <ThemedView style={styles.container}>
-        <View style={styles.upperRow} >
+      <View className="flex-row justify-between items-center">
+        <View className="flex-row gap-2 items-center">
           <Image
             source={getExerciseImage(exercise.images[0])}
-            style={styles.image}
+            className="w-12 h-12 rounded-lg"
           />
-          {/* <ThemedText>{exercise.images[0]}</ThemedText> */}
-          <ThemedText style={styles.text}>{exercise.name} </ThemedText>
-          {/* {exercise.information && (
-            <ThemedText style={styles.text}>
-              ({exercise.information})
-            </ThemedText>
-          )} */}
+          <ThemedText className="text-lg">{exercise.name} </ThemedText>
         </View>
-        {categories && (
-          <View style={styles.categories}>
-            <ThemedText
-              lightColor="gray"
-              darkColor="gray"
-              style={styles.categoryText}
-            >
-              {categories.map((category) => category.title).join(", ")}
-            </ThemedText>
-          </View>
-        )}
-      </ThemedView>
+        <IconButton
+          icon={isFavorite ? "star.fill" : "star"}
+          size={24}
+          color={isFavorite ? "yellow" : "gray"}
+          onPress={handleFavoritePress}
+        />
+      </View>
+      {categories && (
+        <View className="flex-row justify-between">
+          <ThemedText lightColor="gray" darkColor="gray" className="text-sm">
+            {categories.map((category) => category.title).join(", ")}
+          </ThemedText>
+        </View>
+      )}
     </Pressable>
   );
 }

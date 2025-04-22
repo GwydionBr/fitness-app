@@ -5,7 +5,7 @@ import ThemedTextInput from "../ThemedTextInput";
 import PasswordInput from "./PasswordInput";
 import { ThemedText } from "../ThemedText";
 import { useThemeColor } from "@/hooks/useThemeColor";
-
+import ThemedButton from "../ThemedButton";
 export default function EmailForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -88,29 +88,21 @@ export default function EmailForm() {
       )}
       <View style={[styles.verticallySpaced, styles.mt20]}>
         {mode === "signIn" ? (
-          <Pressable
-            style={({ pressed }) => [
-              styles.button,
-              { shadowColor: shadowColor, backgroundColor: primaryColor },
-              pressed && styles.pressed,
-            ]}
-            disabled={loading}
+          <ThemedButton
+            type="primary"
             onPress={() => signInWithEmail()}
+            disabled={loading}
           >
             <ThemedText style={styles.buttonText}>{"Sign in"}</ThemedText>
-          </Pressable>
+          </ThemedButton>
         ) : (
-          <Pressable
-            style={({ pressed }) => [
-              styles.button,
-              { shadowColor: shadowColor, backgroundColor: secondaryColor },
-              pressed && styles.pressed,
-            ]}
-            disabled={loading}
+          <ThemedButton
+            type="primary"
             onPress={() => signUpWithEmail()}
+            disabled={loading}
           >
             <ThemedText style={styles.buttonText}>{"Sign up"}</ThemedText>
-          </Pressable>
+          </ThemedButton>
         )}
       </View>
       <Pressable

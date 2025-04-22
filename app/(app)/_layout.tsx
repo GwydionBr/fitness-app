@@ -1,15 +1,17 @@
 import { Stack, Redirect } from "expo-router";
 import { useAuthStore } from "@/stores/AuthStore";
 import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
-import { ThemedText } from "@/components/ThemedText";
+import { ActivityIndicator, View } from "react-native";
 
 export default function AppLayout() {
   const { session, isLoading } = useAuthStore();
 
   if (isLoading) {
     return (
-      <ThemedSafeAreaView>
-        <ThemedText>Loading...</ThemedText>
+      <ThemedSafeAreaView className="flex-1 justify-center items-center">
+        <View className="flex-1 justify-center items-center">
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
       </ThemedSafeAreaView>
     );
   }

@@ -1,31 +1,23 @@
-import { StyleSheet } from "react-native";
-import { Link } from "expo-router";
+import { View } from "react-native";
+import { useRouter } from "expo-router";
 import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
-import { ThemedText } from "@/components/ThemedText";
+import ThemedButton from "@/components/ThemedButton";
 
 export default function StartScreen() {
+  const router = useRouter();
   return (
-    <ThemedSafeAreaView style={styles.container}>
-      <Link href="/categoryScreen" style={styles.link}>
-        <ThemedText>Category Screen</ThemedText>
-      </Link>
-      <Link href="/allExercises" style={styles.link}>
-        <ThemedText>Training Exercise</ThemedText>
-      </Link>
-      <Link href="/allNewExercises" style={styles.link}>
-        <ThemedText>All New Exercises</ThemedText>
-      </Link>
+    <ThemedSafeAreaView className="flex-1">
+      <View className="flex-1 justify-center gap-8 px-20">
+        <ThemedButton onPress={() => router.push("/categoryScreen")}>
+          Category Screen
+        </ThemedButton>
+        <ThemedButton type="warning" onPress={() => router.push("/allExercises")}>
+          Training Exercise
+        </ThemedButton>
+        <ThemedButton type="success" onPress={() => router.push("/allNewExercises")}>
+          All New Exercises
+        </ThemedButton>
+      </View>
     </ThemedSafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  link: {
-    marginTop: 20,
-  },
-});
