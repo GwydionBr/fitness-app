@@ -24,7 +24,7 @@ const settings = () => {
             icon={systemTheme === "light" ? "sun.min" : "moon"}
             size={24}
             color={systemTheme === "light" ? "black" : "white"}
-            className={`p-3 mt-2 ${
+            className={`p-3 mt-2 rounded-xl ${
               isSystemThemeActive ? "border-2 border-red-500" : ""
             } ${systemTheme === "light" ? "bg-yellow-400" : "bg-blue-900"}`}
             onPress={toggleSystemTheme}

@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/utils/supabase";
 import { StyleSheet, View, Alert } from "react-native";
-import { Button, Input } from "@rneui/themed";
 import Avatar from "@/components/Avatar";
 import { useAuthStore } from "@/stores/AuthStore";
 import Animated from "react-native-reanimated";
 import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
 import { useRouter } from "expo-router";
+import ThemedButton from "@/components/ThemedButton";
+import ThemedInput from "@/components/ThemedInput";
 
 export default function AccountScreen() {
   const [loading, setLoading] = useState(true);
@@ -84,79 +85,74 @@ export default function AccountScreen() {
   }
 
   return (
-    <ThemedSafeAreaView>
+    <ThemedSafeAreaView className="p-5">
       <Animated.ScrollView>
-        <View style={styles.avatar}>
-          <Avatar
-            size={200}
-            url={avatarUrl}
-            onUpload={(url: string) => {
-              setAvatarUrl(url);
-              updateProfile({ username, website, avatar_url: url });
-            }}
-          />
+        <View className="p-5">
+          <View className="items-center w-42 h-42 rounded-full">
+            <Avatar
+              size={150}
+              url={avatarUrl}
+              onUpload={(url: string) => {
+                setAvatarUrl(url);
+                updateProfile({ username, website, avatar_url: url });
+              }}
+            />
+          </View>
+          <View className="border border-gray-300 rounded-lg p-5">
+            <View className="mt-5">
+              <ThemedInput
+                label="Email"
+                value={session?.user?.email}
+                disabled
+              />
+            </View>
+            <View className="mt-5">
+              <ThemedInput
+                label="Username"
+                value={username || ""}
+                onChangeText={(text) => setUsername(text)}
+              />
+            </View>
+            <View className="mt-5">
+              <ThemedInput
+                label="Website"
+                value={website || ""}
+                onChangeText={(text) => setWebsite(text)}
+              />
+            </View>
+          </View>
         </View>
-        <View style={[styles.verticallySpaced, styles.mt20]}>
-          <Input label="Email" value={session?.user?.email} disabled />
-        </View>
-        <View style={styles.verticallySpaced}>
-          <Input
-            label="Username"
-            value={username || ""}
-            onChangeText={(text) => setUsername(text)}
-          />
-        </View>
-        <View style={styles.verticallySpaced}>
-          <Input
-            label="Website"
-            value={website || ""}
-            onChangeText={(text) => setWebsite(text)}
-          />
-        </View>
+        <View className="px-10">
+          <View className="mt-10">
+            <ThemedButton
+              type="primary"
+              withShadow
+              onPress={() =>
+                updateProfile({ username, website, avatar_url: avatarUrl })
+              }
+              isLoading={loading}
+            >
+              Update
+            </ThemedButton>
+          </View>
 
-        <View style={[styles.verticallySpaced, styles.mt20]}>
-          <Button
-            color="primary"
-            title={loading ? "Loading ..." : "Update"}
-            onPress={() =>
-              updateProfile({ username, website, avatar_url: avatarUrl })
-            }
-            disabled={loading}
-          />
-        </View>
-
-        <View style={styles.verticallySpaced}>
-          <Button
-            color="error"
-            title="Sign Out"
-            onPress={() => {
-              supabase.auth.signOut();
-              router.push("/auth");
-            }}
-          />
+          <View className="mt-5">
+            <ThemedButton
+              textClassName="text-white"
+              withShadow
+              type="destructive"
+              onPress={() => {
+                supabase.auth.signOut();
+                router.push("/auth");
+              }}
+            >
+              Sign Out
+            </ThemedButton>
+          </View>
         </View>
       </Animated.ScrollView>
     </ThemedSafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  avatar: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
-    marginBottom: 20,
-    alignItems: "center",
-  },
-  container: {
-    flex: 1,
-  },
-  verticallySpaced: {
-    paddingTop: 4,
-    paddingBottom: 4,
-    alignSelf: "stretch",
-  },
-  mt20: {
-    marginTop: 20,
-  },
-});
+const styles = StyleSheet.create({});

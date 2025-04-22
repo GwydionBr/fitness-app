@@ -16,6 +16,8 @@ export type ThemedInputProps = TextInputProps & {
   label?: string;
   labelStyle?: StyleProp<TextStyle>;
   inputType?: "text" | "number";
+  className?: string;
+  disabled?: boolean;
   onNumberChange?: (value: number) => void;
 };
 
@@ -28,6 +30,8 @@ const ThemedInput = ({
   labelStyle,
   inputType = "text",
   onNumberChange,
+  className,
+  disabled,
   ...otherProps
 }: ThemedInputProps) => {
   const backgroundColor = useThemeColor(
@@ -74,6 +78,7 @@ const ThemedInput = ({
         keyboardType={inputType === "number" ? "numeric" : "default"}
         onChangeText={handleChangeText}
         {...otherProps}
+        editable={!disabled}
       />
     </>
   );

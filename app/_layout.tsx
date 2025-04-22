@@ -2,7 +2,7 @@ import "@/global.css";
 
 import "react-native-reanimated";
 import { useEffect } from "react";
-import { Stack } from "expo-router";
+import { Slot } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 
 import { supabase } from "@/utils/supabase";
@@ -57,7 +57,7 @@ export default function RootLayout() {
       options={{ enableChangeListener: true }}
     >
       <StatusBar style={theme === "dark" ? "light" : "dark"} />
-      <Stack screenOptions={{ headerShown: false }} />
+      <Slot/>
     </SQLiteProvider>
   );
 }
