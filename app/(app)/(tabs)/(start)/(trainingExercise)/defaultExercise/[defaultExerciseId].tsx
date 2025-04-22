@@ -5,8 +5,8 @@ import { db } from "@/db";
 import { useLiveQuery } from "drizzle-orm/expo-sqlite";
 import { Exercise, exercises } from "@/db/schema";
 import { eq, sql } from "drizzle-orm";
-import { ThemedText } from "@/components/ThemedText";
-import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
+import { ThemedText } from "@/components/ui/ThemedText";
+import ThemedSafeAreaView from "@/components/ui/ThemedSafeAreaView";
 import { getExerciseImage } from "@/utils/imageLoader";
 import IconButton from "@/components/ui/IconButton";
 
@@ -36,7 +36,10 @@ export default function EditExercise() {
     console.log("pressed");
     if (exercise) {
       setIsFavorite(!isFavorite);
-      await db.update(exercises).set({ isFavorite: !exercise.isFavorite }).where(eq(exercises.id, exercise.id));
+      await db
+        .update(exercises)
+        .set({ isFavorite: !exercise.isFavorite })
+        .where(eq(exercises.id, exercise.id));
     }
   }
 

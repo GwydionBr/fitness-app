@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { ThemedText } from "@/components/ThemedText";
-import ThemedPicker from "@/components/ThemedPicker";
+import { ThemedText } from "@/components/ui/ThemedText";
+import ThemedPicker from "@/components/ui/ThemedPicker";
 import { Button, StyleSheet, View } from "react-native";
 import { Tables } from "@/types/db.types";
+import ThemedButton from "../ui/ThemedButton";
 
 interface CategorySelectorProps {
   categories: Tables<"category">[];
   onSubmit: (category: Tables<"category">) => void;
 }
 
-const SelectTrainingCategory = ({ categories, onSubmit }: CategorySelectorProps) => {
+const SelectTrainingCategory = ({
+  categories,
+  onSubmit,
+}: CategorySelectorProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
@@ -33,8 +37,9 @@ const SelectTrainingCategory = ({ categories, onSubmit }: CategorySelectorProps)
         }))}
         style={{ width: 350, marginTop: 20 }}
       />
-      <Button
-        title="Select Category"
+      <ThemedButton
+        type="primary"
+        className="my-5 p-3"
         onPress={() => {
           const selected = categories.find(
             (category) => category.id === selectedCategory
@@ -43,7 +48,9 @@ const SelectTrainingCategory = ({ categories, onSubmit }: CategorySelectorProps)
             onSubmit(selected);
           }
         }}
-      />
+      >
+        Select Category
+      </ThemedButton>
     </View>
   );
 };

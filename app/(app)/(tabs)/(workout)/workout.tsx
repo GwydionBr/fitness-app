@@ -4,12 +4,12 @@ import { TimerState, useWorkoutStore } from "@/stores/WorkoutStore";
 import { useRouter, useNavigation } from "expo-router";
 
 import { StyleSheet, ScrollView, FlatList, View, Alert } from "react-native";
-import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
+import ThemedSafeAreaView from "@/components/ui/ThemedSafeAreaView";
 import WorkoutTimer from "@/components/workout/WorkoutTimer";
 import SelectTrainingCategory from "@/components/workout/SelectTrainingCategory";
 import TrainingExerciseForm from "@/components/workout/TrainingExerciseForm";
 import IconButton from "@/components/ui/IconButton";
-import ThemedButton from "@/components/ThemedButton";
+import ThemedButton from "@/components/ui/ThemedButton";
 
 import type { WorkoutExercise } from "@/stores/FitnessStore";
 import type { Tables } from "@/types/db.types";
@@ -20,11 +20,8 @@ const workout = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   // Fitness Store variables
-  const {
-    categories,
-    getExercisesByCategoryId,
-    createWorkoutSession,
-  } = useFitnessStore();
+  const { categories, getExercisesByCategoryId, createWorkoutSession } =
+    useFitnessStore();
 
   // Workout Store variables
   const {
@@ -202,7 +199,8 @@ const workout = () => {
             ListFooterComponent={
               <View style={styles.submitButton}>
                 <ThemedButton
-                  type="secondary"
+                  type="primary"
+                  className="my-5 p-3"
                   onPress={handleSaveWorkout}
                   isLoading={isLoading}
                 >

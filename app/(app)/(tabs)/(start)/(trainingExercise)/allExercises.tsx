@@ -1,13 +1,13 @@
 import { useLayoutEffect } from "react";
 import { FlatList, StyleSheet } from "react-native";
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedView } from "@/components/ui/ThemedView";
 import ExerciseRow from "@/components/Exercise/exerciseRow";
 import IconButton from "@/components/ui/IconButton";
 
 import { useFitnessStore } from "@/stores/FitnessStore";
 import { useNavigation, useRouter } from "expo-router";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
+import ThemedSafeAreaView from "@/components/ui/ThemedSafeAreaView";
 
 export default function AllExercises() {
   const { exercises, getCategoriesByExerciseId } = useFitnessStore();

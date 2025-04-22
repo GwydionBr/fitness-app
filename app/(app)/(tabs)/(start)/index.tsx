@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { useRouter } from "expo-router";
-import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
-import ThemedButton from "@/components/ThemedButton";
+import ThemedSafeAreaView from "@/components/ui/ThemedSafeAreaView";
+import ThemedButton from "@/components/ui/ThemedButton";
 
 export default function StartScreen() {
   const router = useRouter();
@@ -11,10 +11,16 @@ export default function StartScreen() {
         <ThemedButton onPress={() => router.push("/categoryScreen")}>
           Category Screen
         </ThemedButton>
-        <ThemedButton type="warning" onPress={() => router.push("/allExercises")}>
+        <ThemedButton
+          type="warning"
+          onPress={() => router.push("/allExercises")}
+        >
           Training Exercise
         </ThemedButton>
-        <ThemedButton type="success" onPress={() => router.push("/allNewExercises")}>
+        <ThemedButton
+          type="success"
+          onPress={() => router.push("/allNewExercises")}
+        >
           All New Exercises
         </ThemedButton>
       </View>

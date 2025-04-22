@@ -1,27 +1,39 @@
-import { StyleProp, StyleSheet, TextInput, TextStyle, type TextInputProps } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
+import {
+  StyleProp,
+  StyleSheet,
+  TextInput,
+  TextStyle,
+  type TextInputProps,
+} from "react-native";
+import { ThemedText } from "@/components/ui/ThemedText";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import React from "react";
 
-export type ThemedNumberInputProps = TextInputProps & {
+export type ThemedInputProps = TextInputProps & {
   lightColor?: string;
   darkColor?: string;
   withBorder?: boolean;
   label?: string;
   labelStyle?: StyleProp<TextStyle>;
+  inputType?: "text" | "number";
+  className?: string;
+  disabled?: boolean;
   onNumberChange?: (value: number) => void;
 };
 
-const ThemedNumberInput = ({
+const ThemedInput = ({
   style,
   lightColor,
   darkColor,
   withBorder,
   label,
   labelStyle,
+  inputType = "text",
   onNumberChange,
+  className,
+  disabled,
   ...otherProps
-}: ThemedNumberInputProps) => {
+}: ThemedInputProps) => {
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
     "inputBackground"
@@ -36,19 +48,25 @@ const ThemedNumberInput = ({
   );
 
   const handleChangeText = (text: string) => {
-    const numericValue = text.replace(/[^0-9.]/g, '');
-    if (onNumberChange) {
-      const number = parseFloat(numericValue) || 0;
-      onNumberChange(number);
-    }
-    if (otherProps.onChangeText) {
-      otherProps.onChangeText(numericValue);
+    if (inputType === "number") {
+      const numericValue = text.replace(/[^0-9.]/g, "");
+      if (onNumberChange) {
+        const number = parseFloat(numericValue) || 0;
+        onNumberChange(number);
+      }
+      if (otherProps.onChangeText) {
+        otherProps.onChangeText(numericValue);
+      }
+    } else if (otherProps.onChangeText) {
+      otherProps.onChangeText(text);
     }
   };
 
   return (
     <>
-      {label && <ThemedText style={[styles.label, labelStyle]}>{label}</ThemedText>}
+      {label && (
+        <ThemedText style={[styles.label, labelStyle]}>{label}</ThemedText>
+      )}
       <TextInput
         style={[
           { backgroundColor, color },
@@ -57,15 +75,16 @@ const ThemedNumberInput = ({
           style,
         ]}
         placeholderTextColor={placeholderColor}
-        keyboardType="numeric"
+        keyboardType={inputType === "number" ? "numeric" : "default"}
         onChangeText={handleChangeText}
         {...otherProps}
+        editable={!disabled}
       />
     </>
   );
 };
 
-export default ThemedNumberInput;
+export default ThemedInput;
 
 const styles = StyleSheet.create({
   input: {
@@ -74,5 +93,5 @@ const styles = StyleSheet.create({
   },
   label: {
     marginBottom: 5,
-  }
+  },
 });

@@ -1,9 +1,9 @@
-import React,{ useLayoutEffect, useState, useEffect } from "react";
+import React, { useLayoutEffect, useState, useEffect } from "react";
 import { View, StyleSheet, Alert, FlatList } from "react-native";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 
-import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
-import { ThemedText } from "@/components/ThemedText";
+import ThemedSafeAreaView from "@/components/ui/ThemedSafeAreaView";
+import { ThemedText } from "@/components/ui/ThemedText";
 import { useFitnessStore } from "@/stores/FitnessStore";
 import IconButton from "@/components/ui/IconButton";
 import TrainingExerciseForm from "@/components/workout/TrainingExerciseForm";

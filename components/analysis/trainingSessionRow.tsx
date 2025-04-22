@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, View } from "react-native";
-import { ThemedText } from "../ThemedText";
+import { ThemedText } from "../ui/ThemedText";
 import { Tables } from "@/types/db.types";
 import { useFitnessStore } from "@/stores/FitnessStore";
 import {
@@ -38,8 +38,12 @@ export default function TrainingSessionRow({
       <ThemedText>{formatDate(startTime)}</ThemedText>
       <ThemedText>{category?.title}</ThemedText>
       <View style={styles.timeContainer}>
-        <ThemedText style={styles.timeSpanText}>{formatTimeSpan(startTime, endTime)}</ThemedText>
-        <ThemedText style={styles.minutesText}>{formatTime(durationInSeconds)}</ThemedText>
+        <ThemedText style={styles.timeSpanText}>
+          {formatTimeSpan(startTime, endTime)}
+        </ThemedText>
+        <ThemedText style={styles.minutesText}>
+          {formatTime(durationInSeconds)}
+        </ThemedText>
       </View>
     </Pressable>
   );

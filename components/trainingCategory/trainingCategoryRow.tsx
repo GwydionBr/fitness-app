@@ -1,16 +1,22 @@
-import { StyleSheet, Pressable } from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
+import { StyleSheet, Pressable } from "react-native";
+import { ThemedText } from "@/components/ui/ThemedText";
 
 interface TrainingCategoryRowProps {
   category: string;
   onPress: () => void;
 }
 
-export default function TrainingCategoryRow({ category, onPress }: TrainingCategoryRowProps) {
+export default function TrainingCategoryRow({
+  category,
+  onPress,
+}: TrainingCategoryRowProps) {
   return (
-  <Pressable style={({ pressed }) => [styles.container, pressed && styles.pressed]} onPress={onPress}>
-    <ThemedText>{category}</ThemedText>
-  </Pressable>
+    <Pressable
+      style={({ pressed }) => [styles.container, pressed && styles.pressed]}
+      onPress={onPress}
+    >
+      <ThemedText>{category}</ThemedText>
+    </Pressable>
   );
 }
 

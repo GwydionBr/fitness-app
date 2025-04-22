@@ -5,15 +5,15 @@ import { useNavigation, useRouter } from "expo-router";
 
 import { StyleSheet, View } from "react-native";
 import ExerciseRow from "@/components/Exercise/exerciseRow";
-import { ThemedText } from "@/components/ThemedText";
-import ThemedTextInput from "@/components/ThemedTextInput";
+import { ThemedText } from "@/components/ui/ThemedText";
+import ThemedTextInput from "@/components/ui/ThemedTextInput";
 import { SwipeListView } from "react-native-swipe-list-view";
 import DeleteSwipeRow from "@/components/ui/DeleteSwipeRow";
-import ThemedMultipleSelect from "@/components/ThemedMultipleSelect";
+import ThemedMultipleSelect from "@/components/ui/ThemedMultipleSelect";
 
 import { Tables } from "@/types/db.types";
-import ThemedButton from "@/components/ThemedButton";
-import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
+import ThemedButton from "@/components/ui/ThemedButton";
+import ThemedSafeAreaView from "@/components/ui/ThemedSafeAreaView";
 
 export default function CategoryScreen() {
   const { categoryId } = useLocalSearchParams();

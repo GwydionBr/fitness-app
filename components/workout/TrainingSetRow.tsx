@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { StyleSheet, Pressable, ViewStyle, StyleProp } from "react-native";
-import { ThemedText } from "../ThemedText";
-import ThemedNumberInput from "../ThemedNumberInput";
-import { ThemedView } from "../ThemedView";
+import { ThemedText } from "../ui/ThemedText";
+import ThemedNumberInput from "../ui/ThemedNumberInput";
+import { ThemedView } from "../ui/ThemedView";
 import { useThemeStore } from "@/stores/ThemeStore";
 interface TrainingSetRowProps {
   index: number;

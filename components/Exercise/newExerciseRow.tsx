@@ -1,5 +1,5 @@
 import { View, StyleSheet, Pressable, Image } from "react-native";
-import { ThemedText } from "../ThemedText";
+import { ThemedText } from "../ui/ThemedText";
 import { Tables } from "@/types/db.types";
 import { Exercise, exercises } from "@/db/schema";
 import { getExerciseImage } from "@/utils/imageLoader";
@@ -23,9 +23,12 @@ export default function NewExerciseRow({
 
   async function handleFavoritePress() {
     setIsFavorite((prev) => !prev);
-    await db.update(exercises).set({ isFavorite: !isFavorite }).where(eq(exercises.id, exercise.id));
+    await db
+      .update(exercises)
+      .set({ isFavorite: !isFavorite })
+      .where(eq(exercises.id, exercise.id));
   }
-  
+
   return (
     <Pressable
       className="active:opacity-75 p-2 m-2 rounded-lg border border-gray-400"

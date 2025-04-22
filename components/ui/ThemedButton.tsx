@@ -2,10 +2,10 @@ import {
   Pressable,
   PressableProps,
   TextStyle,
+  Text,
   ActivityIndicator,
 } from "react-native";
 import { ReactNode } from "react";
-import { ThemedText } from "./ThemedText";
 import { useThemeStore } from "@/stores/ThemeStore";
 export type ThemedButtonProps = PressableProps & {
   lightColor?: string;
@@ -114,11 +114,11 @@ export default function ThemedButton({
       {isLoading ? (
         <ActivityIndicator size="small" color={styleType[theme].text[type]} />
       ) : (
-        <ThemedText
+        <Text
           className={`${styleType[theme].text[type]} ${textClassName}`}
         >
           {children}
-        </ThemedText>
+        </Text>
       )}
     </Pressable>
   );

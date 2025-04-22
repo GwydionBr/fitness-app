@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Alert, StyleSheet, View, Button, Pressable } from "react-native";
 import { supabase } from "@/utils/supabase";
-import ThemedTextInput from "../ThemedTextInput";
+import ThemedTextInput from "../ui/ThemedTextInput";
 import PasswordInput from "./PasswordInput";
-import { ThemedText } from "../ThemedText";
+import { ThemedText } from "../ui/ThemedText";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import ThemedButton from "../ThemedButton";
+import ThemedButton from "../ui/ThemedButton";
 export default function EmailForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

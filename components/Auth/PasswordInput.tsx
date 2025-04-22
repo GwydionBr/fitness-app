@@ -1,11 +1,13 @@
 import { StyleSheet, View, Pressable, Animated } from "react-native";
-import ThemedTextInput, { ThemedTextInputProps } from "../ThemedTextInput";
+import ThemedTextInput, { ThemedTextInputProps } from "../ui/ThemedTextInput";
 import { useRef, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { IconSymbol } from "../ui/IconSymbol";
 
-export default function PasswordInput(props: Omit<ThemedTextInputProps, "secureTextEntry">) {
+export default function PasswordInput(
+  props: Omit<ThemedTextInputProps, "secureTextEntry">
+) {
   const [isSecure, setIsSecure] = useState(true);
   const iconColor = useThemeColor({}, "text");
   const rotateAnim = useRef(new Animated.Value(0)).current;
@@ -16,13 +18,13 @@ export default function PasswordInput(props: Omit<ThemedTextInputProps, "secureT
       toValue: isSecure ? 1 : 0,
       useNativeDriver: true,
       tension: 20,
-      friction: 7
+      friction: 7,
     }).start();
   };
 
   const spin = rotateAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: ['0deg', '180deg']
+    outputRange: ["0deg", "180deg"],
   });
 
   return (
@@ -33,14 +35,11 @@ export default function PasswordInput(props: Omit<ThemedTextInputProps, "secureT
         secureTextEntry={isSecure}
         style={[styles.input, props.style]}
       />
-      <Pressable 
-        style={styles.eyeButton}
-        onPress={toggleSecure}
-      >
+      <Pressable style={styles.eyeButton} onPress={toggleSecure}>
         <Animated.View style={{ transform: [{ rotate: spin }] }}>
-          <IconSymbol 
-            name={isSecure ? "eye.slash" : "eye"} 
-            size={30} 
+          <IconSymbol
+            name={isSecure ? "eye.slash" : "eye"}
+            size={30}
             weight={isSecure ? "bold" : "regular"}
             color={isSecure ? "grey" : "black"}
           />
@@ -62,5 +61,5 @@ const styles = StyleSheet.create({
     right: 12,
     top: "40%",
     transform: [{ translateY: -12 }],
-  }
+  },
 });

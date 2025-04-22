@@ -1,5 +1,5 @@
 import { StyleSheet, FlatList } from "react-native";
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedView } from "@/components/ui/ThemedView";
 import { useFitnessStore } from "@/stores/FitnessStore";
 import TrainingCategoryRow from "@/components/trainingCategory/trainingCategoryRow";
 import NewTrainingCategoryInput from "@/components/trainingCategory/newTrainingCategoryInput";
@@ -15,9 +15,12 @@ export default function CategoryScreen() {
       <FlatList
         data={categories}
         renderItem={({ item }) => (
-          <TrainingCategoryRow category={item.title} onPress={() => {
-            router.push(`/(tabs)/(start)/(category)/${item.id}`);
-          }} />
+          <TrainingCategoryRow
+            category={item.title}
+            onPress={() => {
+              router.push(`/(tabs)/(start)/(category)/${item.id}`);
+            }}
+          />
         )}
       />
     </ThemedView>

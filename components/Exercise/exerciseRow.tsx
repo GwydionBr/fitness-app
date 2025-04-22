@@ -1,7 +1,7 @@
 import { View, StyleSheet, Pressable } from "react-native";
-import { ThemedText } from "../ThemedText";
+import { ThemedText } from "../ui/ThemedText";
 import { Tables } from "@/types/db.types";
-import { ThemedView } from "../ThemedView";
+import { ThemedView } from "../ui/ThemedView";
 
 interface ExerciseRowProps {
   exercise: Tables<"exercise">;
@@ -16,9 +16,7 @@ export default function ExerciseRow({
 }: ExerciseRowProps) {
   return (
     <Pressable
-      style={({ pressed }) => [
-        onPress && pressed && styles.pressed,
-      ]}
+      style={({ pressed }) => [onPress && pressed && styles.pressed]}
       onPress={onPress}
     >
       <ThemedView style={styles.container}>
@@ -68,6 +66,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   pressed: {
-    opacity: 0.70,
+    opacity: 0.7,
   },
 });

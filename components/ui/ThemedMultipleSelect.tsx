@@ -7,7 +7,7 @@ import {
   ViewStyle,
   TextStyle,
 } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
+import { ThemedText } from "@/components/ui/ThemedText";
 import { useThemeColor } from "@/hooks/useThemeColor";
 
 export type ThemedMultipleSelectProps<T> = {
@@ -85,7 +85,10 @@ const ThemedMultipleSelect = <T extends unknown>({
         styleRowList={[styles.rowList, { borderColor: color }]}
         styleSelectorContainer={[styles.selectorContainer]}
         styleTextDropdown={[styles.textDropdown, { color: secondaryTextColor }]}
-        styleTextDropdownSelected={[styles.textDropdownSelected, { color: secondaryTextColor }]}
+        styleTextDropdownSelected={[
+          styles.textDropdownSelected,
+          { color: secondaryTextColor },
+        ]}
         tagBorderColor={color}
         tagTextColor={color}
         selectedItemTextColor={color}

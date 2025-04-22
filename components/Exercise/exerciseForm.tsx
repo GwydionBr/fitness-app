@@ -2,18 +2,23 @@ import { useState, useEffect } from "react";
 import { View, StyleSheet, Button } from "react-native";
 import { Tables, TablesInsert } from "@/types/db.types";
 import { useFitnessStore } from "@/stores/FitnessStore";
-import ThemedMultipleSelect from "@/components/ThemedMultipleSelect";
-import ThemedTextInput from "../ThemedTextInput";
+import ThemedMultipleSelect from "@/components/ui/ThemedMultipleSelect";
+import ThemedTextInput from "../ui/ThemedTextInput";
 
 import { useRouter } from "expo-router";
-import ThemedButton from "../ThemedButton";
+import ThemedButton from "../ui/ThemedButton";
 
 interface ExerciseFormProps {
   existingExercise?: Tables<"exercise">;
 }
 
 export default function ExerciseForm({ existingExercise }: ExerciseFormProps) {
-  const { categories, getCategoriesByExerciseId, createExercise, updateExercise } = useFitnessStore();
+  const {
+    categories,
+    getCategoriesByExerciseId,
+    createExercise,
+    updateExercise,
+  } = useFitnessStore();
   const router = useRouter();
   const [exercise, setExercise] = useState<TablesInsert<"exercise">>({
     title: "",
@@ -70,10 +75,12 @@ export default function ExerciseForm({ existingExercise }: ExerciseFormProps) {
         withBorder
       />
       <View style={styles.buttonContainer}>
-        <ThemedButton type="primary" onPress={handleSubmit}>Submit</ThemedButton>
+        <ThemedButton type="primary" onPress={handleSubmit}>
+          Submit
+        </ThemedButton>
       </View>
     </View>
-  );  
+  );
 }
 
 const styles = StyleSheet.create({

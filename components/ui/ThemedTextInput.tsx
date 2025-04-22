@@ -1,5 +1,11 @@
-import { StyleProp, StyleSheet, TextInput, TextStyle, type TextInputProps } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
+import {
+  StyleProp,
+  StyleSheet,
+  TextInput,
+  TextStyle,
+  type TextInputProps,
+} from "react-native";
+import { ThemedText } from "@/components/ui/ThemedText";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import React from "react";
 
@@ -35,7 +41,9 @@ const ThemedTextInput = ({
 
   return (
     <>
-      {label && <ThemedText style={[styles.label, labelStyle]}>{label}</ThemedText>}
+      {label && (
+        <ThemedText style={[styles.label, labelStyle]}>{label}</ThemedText>
+      )}
       <TextInput
         style={[
           { backgroundColor, color },
@@ -59,5 +67,5 @@ const styles = StyleSheet.create({
   },
   label: {
     marginBottom: 5,
-  }
+  },
 });

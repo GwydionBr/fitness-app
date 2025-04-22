@@ -3,7 +3,7 @@ import { db } from "@/db";
 import { Exercise, exercises } from "@/db/schema";
 import { useEffect, useState, useLayoutEffect } from "react";
 import SearchBar from "react-native-platform-searchbar";
-import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
+import ThemedSafeAreaView from "@/components/ui/ThemedSafeAreaView";
 import NewExerciseRow from "@/components/Exercise/newExerciseRow";
 import { useRouter, useNavigation } from "expo-router";
 import IconButton from "@/components/ui/IconButton";
@@ -11,7 +11,7 @@ import ExerciseFilter from "@/components/Exercise/ExerciseFilter";
 
 export default function AllNewExercises() {
   const colorScheme = useColorScheme() || "light";
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [allExercises, setExercises] = useState<Exercise[]>([]);
   const [filteredExercises, setFilteredExercises] = useState<Exercise[]>([]);

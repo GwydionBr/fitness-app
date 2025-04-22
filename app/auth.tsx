@@ -2,7 +2,7 @@ import { AppState, StyleSheet, View } from "react-native";
 import { supabase } from "@/utils/supabase";
 import EmailForm from "@/components/Auth/EmailForm";
 import Auth from "@/components/Auth/Auth";
-import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
+import ThemedSafeAreaView from "@/components/ui/ThemedSafeAreaView";
 import { useAuthStore } from "@/stores/AuthStore";
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
@@ -28,7 +28,7 @@ export default function AuthScreen() {
       router.replace("/");
     }
   }, [session]);
-  
+
   return (
     <ThemedSafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>

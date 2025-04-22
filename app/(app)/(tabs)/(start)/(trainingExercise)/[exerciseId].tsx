@@ -5,7 +5,7 @@ import ExerciseForm from "@/components/Exercise/exerciseForm";
 import { useNavigation } from "expo-router";
 import { useLocalSearchParams } from "expo-router";
 import { useFitnessStore } from "@/stores/FitnessStore";
-import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
+import ThemedSafeAreaView from "@/components/ui/ThemedSafeAreaView";
 
 export default function EditExercise() {
   const { exerciseId } = useLocalSearchParams();

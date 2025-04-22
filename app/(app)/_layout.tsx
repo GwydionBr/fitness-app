@@ -1,6 +1,6 @@
 import { Stack, Redirect } from "expo-router";
 import { useAuthStore } from "@/stores/AuthStore";
-import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
+import ThemedSafeAreaView from "@/components/ui/ThemedSafeAreaView";
 import { ActivityIndicator, View } from "react-native";
 
 export default function AppLayout() {

@@ -8,10 +8,10 @@ import {
   Platform,
   Pressable,
 } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "../ThemedView";
+import { ThemedText } from "@/components/ui/ThemedText";
+import { ThemedView } from "./ThemedView";
 import SearchBar from "react-native-platform-searchbar";
-import ThemedSafeAreaView from "../ThemedSafeAreaView";
+import ThemedSafeAreaView from "./ThemedSafeAreaView";
 
 export interface Item {
   id: string;

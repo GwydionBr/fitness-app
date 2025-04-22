@@ -1,10 +1,10 @@
-import { StyleSheet, FlatList } from 'react-native'
-import React from 'react'
-import ThemedSafeAreaView from '@/components/ThemedSafeAreaView'
-import { ThemedText } from '@/components/ThemedText';
-import { useFitnessStore } from '@/stores/FitnessStore';
-import TrainingSessionRow from '@/components/analysis/trainingSessionRow';
-import { router } from 'expo-router';
+import { StyleSheet, FlatList } from "react-native";
+import React from "react";
+import ThemedSafeAreaView from "@/components/ui/ThemedSafeAreaView";
+import { ThemedText } from "@/components/ui/ThemedText";
+import { useFitnessStore } from "@/stores/FitnessStore";
+import TrainingSessionRow from "@/components/analysis/trainingSessionRow";
+import { router } from "expo-router";
 
 const index = () => {
   const { trainingSessions, isFetching } = useFitnessStore();
@@ -24,19 +24,24 @@ const index = () => {
         style={styles.sessionList}
         keyExtractor={(item) => item.id}
         renderItem={({ item: trainingSession }) => (
-          <TrainingSessionRow session={trainingSession} onPress={() => router.push(`/(tabs)/(analysis)/${trainingSession.id}`)} />
+          <TrainingSessionRow
+            session={trainingSession}
+            onPress={() =>
+              router.push(`/(tabs)/(analysis)/${trainingSession.id}`)
+            }
+          />
         )}
         ListEmptyComponent={<ThemedText>No categories found</ThemedText>}
-        />
+      />
     </ThemedSafeAreaView>
   );
-}
+};
 
-export default index
+export default index;
 
 const styles = StyleSheet.create({
   sessionList: {
     flex: 1,
     marginTop: 10,
   },
-})
+});

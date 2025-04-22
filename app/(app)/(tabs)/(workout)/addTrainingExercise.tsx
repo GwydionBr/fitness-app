@@ -1,6 +1,8 @@
 import { StyleSheet } from "react-native";
-import ThemedSearchAndPickScreen, { Item } from "@/components/ui/ThemedSearchAndPickScreen";
-import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
+import ThemedSearchAndPickScreen, {
+  Item,
+} from "@/components/ui/ThemedSearchAndPickScreen";
+import ThemedSafeAreaView from "@/components/ui/ThemedSafeAreaView";
 
 const exercises: Item[] = [
   { id: "1", name: "Bench Press" },
@@ -13,7 +15,11 @@ const exercises: Item[] = [
 export default function AddTrainingExercise() {
   return (
     <ThemedSafeAreaView style={styles.container}>
-      <ThemedSearchAndPickScreen onClose={() => {}} items={exercises} bottomSearchBar />
+      <ThemedSearchAndPickScreen
+        onClose={() => {}}
+        items={exercises}
+        bottomSearchBar
+      />
     </ThemedSafeAreaView>
   );
 }

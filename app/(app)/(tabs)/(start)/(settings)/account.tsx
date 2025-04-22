@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/utils/supabase";
 import { StyleSheet, View, Alert } from "react-native";
-import Avatar from "@/components/Avatar";
+import Avatar from "@/components/Auth/Avatar";
 import { useAuthStore } from "@/stores/AuthStore";
 import Animated from "react-native-reanimated";
-import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
+import ThemedSafeAreaView from "@/components/ui/ThemedSafeAreaView";
 import { useRouter } from "expo-router";
-import ThemedButton from "@/components/ThemedButton";
-import ThemedInput from "@/components/ThemedInput";
+import ThemedButton from "@/components/ui/ThemedButton";
+import ThemedInput from "@/components/ui/ThemedInput";
 
 export default function AccountScreen() {
   const [loading, setLoading] = useState(true);

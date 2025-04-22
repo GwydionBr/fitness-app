@@ -1,37 +1,36 @@
-import { StyleSheet, Pressable } from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
-import { FontAwesome } from '@expo/vector-icons';
-import { useState } from 'react';
-import { useFitnessStore } from '@/stores/FitnessStore';
-import { ThemedView } from '../ThemedView';
-import ThemedTextInput from '../ThemedTextInput';
-import { useThemeColor } from '@/hooks/useThemeColor';
+import { StyleSheet, Pressable } from "react-native";
+import { ThemedText } from "@/components/ui/ThemedText";
+import { FontAwesome } from "@expo/vector-icons";
+import { useState } from "react";
+import { useFitnessStore } from "@/stores/FitnessStore";
+import { ThemedView } from "../ui/ThemedView";
+import ThemedTextInput from "../ui/ThemedTextInput";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 export default function NewTrainingCategoryInput() {
-  const [categoryName, setCategoryName] = useState('');
+  const [categoryName, setCategoryName] = useState("");
   const { createCategory } = useFitnessStore();
-  const iconColor = useThemeColor({}, 'text');
-  const shadowColor = useThemeColor({}, 'shadow');
+  const iconColor = useThemeColor({}, "text");
+  const shadowColor = useThemeColor({}, "shadow");
 
   const handleAddCategory = () => {
     if (categoryName.trim()) {
       createCategory({ title: categoryName.trim() });
-      setCategoryName('');
+      setCategoryName("");
     }
   };
 
   return (
-    <ThemedView style={[styles.container, { shadowColor, borderColor: shadowColor }]}>
+    <ThemedView
+      style={[styles.container, { shadowColor, borderColor: shadowColor }]}
+    >
       <ThemedTextInput
         style={styles.input}
         value={categoryName}
         onChangeText={setCategoryName}
         placeholder="New Training Category"
       />
-      <Pressable 
-        style={styles.addButton}
-        onPress={handleAddCategory}
-      >
+      <Pressable style={styles.addButton} onPress={handleAddCategory}>
         <FontAwesome name="plus" size={20} color={iconColor} />
       </Pressable>
     </ThemedView>
@@ -41,8 +40,8 @@ export default function NewTrainingCategoryInput() {
 const styles = StyleSheet.create({
   container: {
     height: 50,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingHorizontal: 15,
     borderWidth: 1,
     borderRadius: 10,
@@ -56,10 +55,10 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: 16,
-    height: '100%',
-    backgroundColor: 'transparent',
+    height: "100%",
+    backgroundColor: "transparent",
   },
   addButton: {
     padding: 10,
-  }
+  },
 });

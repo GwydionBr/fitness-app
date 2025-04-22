@@ -1,7 +1,7 @@
 import { StyleSheet, Switch, View } from "react-native";
 import React from "react";
-import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
-import { ThemedText } from "@/components/ThemedText";
+import ThemedSafeAreaView from "@/components/ui/ThemedSafeAreaView";
+import { ThemedText } from "@/components/ui/ThemedText";
 import { Link } from "expo-router";
 import { useThemeStore } from "@/stores/ThemeStore";
 import IconButton from "@/components/ui/IconButton";
@@ -39,7 +39,9 @@ const settings = () => {
               size={24}
               color={"black"}
               className={`p-3 mt-2 bg-yellow-400 ${
-                theme === "light" && !isSystemThemeActive ? "border-2 border-red-500" : ""
+                theme === "light" && !isSystemThemeActive
+                  ? "border-2 border-red-500"
+                  : ""
               }`}
               onPress={() => setTheme("light")}
               withBorder

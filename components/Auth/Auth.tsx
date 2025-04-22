@@ -6,7 +6,7 @@ import * as WebBrowser from "expo-web-browser";
 import * as Linking from "expo-linking";
 import { supabase } from "@/utils/supabase";
 import { SignInWithAppleButton } from "./SignInWithAppleButton";
-import { ThemedView } from "../ThemedView";
+import { ThemedView } from "../ui/ThemedView";
 
 WebBrowser.maybeCompleteAuthSession(); // required for web only
 const redirectTo = makeRedirectUri();

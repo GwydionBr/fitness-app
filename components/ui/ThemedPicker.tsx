@@ -1,7 +1,13 @@
 import React from "react";
 import { Picker } from "@react-native-picker/picker";
-import { StyleProp, StyleSheet, View, ViewStyle, TextStyle } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
+import {
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+  TextStyle,
+} from "react-native";
+import { ThemedText } from "@/components/ui/ThemedText";
 import { useThemeColor } from "@/hooks/useThemeColor";
 
 export type ThemedPickerProps<T> = {
